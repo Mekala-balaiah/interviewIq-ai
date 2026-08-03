@@ -5,6 +5,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.9.0] - 2026-08-03
+### Added
+- `ResumeAnalysis` entity mapping to existing `resume_analyses` table.
+- AI engine stubs (`AiService`, `MockAiServiceImpl`) for extracting skills and computing ATS score.
+- `ResumeParsingService` that reads a resume and runs AI simulation.
+- Endpoints `POST /api/v1/resumes/{resumeId}/analyze` and `GET /api/v1/resumes/{resumeId}/analyses` to trigger and view resume parsing results.
+
 ## [0.8.0] - 2026-08-03
 ### Added
 - `messages` and `message_attachments` tables for internal communication.

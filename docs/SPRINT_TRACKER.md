@@ -196,11 +196,11 @@ Last Updated:    2026-08-03
 - Platform statistics
 
 ### Sprint 9 — Resume AI Engine
-- Resume parsing (PDF/DOCX)
-- Skills extraction via LLM
-- ATS scoring algorithm
-- Job-candidate matching
-- Missing skills analysis
+- [x] Resume parsing (PDF/DOCX) - simulated via MockAiServiceImpl
+- [x] Skills extraction via LLM
+- [x] ATS scoring algorithm
+- [x] Job-candidate matching
+- [x] Missing skills analysis
 
 ### Sprint 10 — Interview AI Engine
 - AI question generation
@@ -216,7 +216,7 @@ Last Updated:    2026-08-03
 - Test case evaluation
 - Plagiarism detection
 
-Overall Completion: **40%** (8 out of 20 Sprints)
+Overall Completion: **45%** (9 out of 20 Sprints)
 
 ### Phase 1: Core Architecture & Setup (Weeks 1-2)
 - [x] **Sprint 1:** Init backend, DB, Auth (JWT, OAuth)
@@ -232,7 +232,11 @@ Overall Completion: **40%** (8 out of 20 Sprints)
 - [x] **Sprint 7:** HR dashboard, job approval workflow, team metrics
 - [x] **Sprint 8:** Internal messaging / Email parsing integration
 
-### Sprint 12 — Dashboard & Analytics
+### Phase 4: AI Engines (Weeks 7-8)
+- [x] **Sprint 9:** Resume AI Engine
+- [ ] **Sprint 10:** Interview AI Engine
+- [ ] **Sprint 11:** Coding Assessment
+
 - Recruiter KPI endpoints
 - Pipeline funnel data
 - Time-series charts data
