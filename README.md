@@ -2,8 +2,8 @@
 ### Enterprise AI Recruitment & Interview Intelligence Platform
 
 [![CI Backend](https://github.com/Mekala-balaiah/interviewiq-ai/actions/workflows/ci-backend.yml/badge.svg)](https://github.com/Mekala-balaiah/interviewiq-ai/actions/workflows/ci-backend.yml)
-[![Sprint Progress](https://img.shields.io/badge/Sprint-3%20of%2020-blue?style=flat-square)](https://github.com/Mekala-balaiah/interviewiq-ai/blob/main/docs/SPRINT_TRACKER.md)
-[![Version](https://img.shields.io/badge/Version-0.3.0-green?style=flat-square)](https://github.com/Mekala-balaiah/interviewiq-ai/releases)
+[![Sprint Progress](https://img.shields.io/badge/Sprint-15%20of%2020-blue?style=flat-square)](https://github.com/Mekala-balaiah/interviewiq-ai/blob/main/docs/SPRINT_TRACKER.md)
+[![Version](https://img.shields.io/badge/Version-0.15.0-green?style=flat-square)](https://github.com/Mekala-balaiah/interviewiq-ai/releases)
 [![Java](https://img.shields.io/badge/Java-21-orange?style=flat-square&logo=openjdk)](https://openjdk.org/projects/jdk/21/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3-green?style=flat-square&logo=spring)](https://spring.io/projects/spring-boot)
 [![React](https://img.shields.io/badge/React-19-blue?style=flat-square&logo=react)](https://react.dev/)
@@ -24,16 +24,15 @@ Built with **Java 21 + Spring Boot 3** on the backend and **React 19 + TypeScrip
 ## 📊 Sprint Progress
 
 ```
-███░░░░░░░░░░░░░░░░░  Sprint 3 of 20 (15% complete)
+███████████████░░░░░  Sprint 15 of 20 (75% complete)
 ```
 
 | Sprint | Module | Status | Version |
 |--------|--------|--------|---------|
-| ✅ 1 | Project Vision & Architecture | Done | [v0.1.0](https://github.com/Mekala-balaiah/interviewiq-ai/releases/tag/v0.1.0) |
-| ✅ 2 | System Architecture & DB Design | Done | [v0.2.0](https://github.com/Mekala-balaiah/interviewiq-ai/releases/tag/v0.2.0) |
-| ✅ 3 | Spring Boot Project Setup | Done | [v0.3.0](https://github.com/Mekala-balaiah/interviewiq-ai/releases/tag/v0.3.0) |
-| 🔄 4 | Authentication & Authorization | **Active** | v0.4.0 |
-| ⬜ 5–20 | Remaining Modules | Planned | — |
+| ✅ 1–14| Initial Setup to Redis Caching | Done | [v0.14.0](https://github.com/Mekala-balaiah/interviewiq-ai/releases/tag/v0.14.0) |
+| ✅ 15 | Redis Cache Layer | Done | [v0.15.0](https://github.com/Mekala-balaiah/interviewiq-ai/releases/tag/v0.15.0) |
+| 🔄 16 | Elasticsearch Search | **Active** | v0.16.0 |
+| ⬜ 17–20 | Remaining Modules | Planned | — |
 
 > 📋 [Full Sprint Tracker →](docs/SPRINT_TRACKER.md)
 
@@ -137,7 +136,7 @@ interviewiq-ai/
 ├── .env.example                # Environment variable template
 ├── CHANGELOG.md                # Version history
 ├── CONTRIBUTING.md             # Development workflow guide
-└── VERSION                     # Current: 0.3.0
+└── VERSION                     # Current: 0.15.0
 ```
 
 ---
