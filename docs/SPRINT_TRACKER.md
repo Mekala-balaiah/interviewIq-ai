@@ -216,6 +216,22 @@ Last Updated:    2026-08-03
 - Test case evaluation
 - Plagiarism detection
 
+Overall Completion: **35%** (7 out of 20 Sprints)
+
+### Phase 1: Core Architecture & Setup (Weeks 1-2)
+- [x] **Sprint 1:** Init backend, DB, Auth (JWT, OAuth)
+- [x] **Sprint 2:** Core schemas & entities (User, Profile, Auth)
+
+### Phase 2: Candidate & Company Profiles (Weeks 3-4)
+- [x] **Sprint 3:** Candidate profile completion & matching stub
+- [x] **Sprint 4:** Company onboarding & branding profile
+- [x] **Sprint 5:** Basic Job postings & application flow (stub)
+
+### Phase 3: Recruitment & HR (Weeks 5-6)
+- [x] **Sprint 6:** Recruiter dashboard & candidate pipeline tracking
+- [x] **Sprint 7:** HR dashboard, job approval workflow, team metrics
+- [ ] **Sprint 8:** Internal messaging / Email parsing integration
+
 ### Sprint 12 — Dashboard & Analytics
 - Recruiter KPI endpoints
 - Pipeline funnel data

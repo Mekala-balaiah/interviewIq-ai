@@ -10,4 +10,6 @@ import java.util.UUID;
 @Repository
 public interface RecruiterProfileRepository extends JpaRepository<RecruiterProfile, UUID> {
     Optional<RecruiterProfile> findByUserId(UUID userId);
+    
+    long countByCompanyId(UUID companyId);
 }

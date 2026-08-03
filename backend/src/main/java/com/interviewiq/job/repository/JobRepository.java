@@ -16,4 +16,6 @@ public interface JobRepository extends JpaRepository<Job, UUID> {
     Optional<Job> findByIdAndDeletedAtIsNull(UUID id);
     Optional<Job> findBySlugAndDeletedAtIsNull(String slug);
     long countByRecruiterIdAndStatusAndDeletedAtIsNull(UUID recruiterId, JobStatus status);
+    long countByCompanyIdAndStatusAndDeletedAtIsNull(UUID companyId, JobStatus status);
+    Page<Job> findByCompanyIdAndStatusAndDeletedAtIsNull(UUID companyId, JobStatus status, Pageable pageable);
 }

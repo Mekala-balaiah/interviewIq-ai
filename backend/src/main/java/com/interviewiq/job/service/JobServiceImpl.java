@@ -113,15 +113,14 @@ public class JobServiceImpl implements JobService {
 
     @Override
     @Transactional
-    public JobDto publishJob(UUID jobId, UUID recruiterUserId) {
+    public JobDto submitForApproval(UUID jobId, UUID recruiterUserId) {
         Job job = getJobAndVerifyOwnership(jobId, recruiterUserId);
         
         if (job.getStatus() != JobStatus.DRAFT) {
-            throw new IllegalStateException("Only DRAFT jobs can be published");
+            throw new IllegalStateException("Only DRAFT jobs can be submitted for approval");
         }
         
-        job.setStatus(JobStatus.PUBLISHED);
-        job.setPublishDate(Instant.now());
+        job.setStatus(JobStatus.PENDING_APPROVAL);
         job = jobRepository.save(job);
         
         return jobMapper.toDto(job);

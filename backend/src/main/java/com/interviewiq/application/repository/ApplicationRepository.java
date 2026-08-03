@@ -14,7 +14,11 @@ public interface ApplicationRepository extends JpaRepository<Application, UUID> 
     
     Optional<Application> findByJobIdAndCandidateId(UUID jobId, UUID candidateId);
     
+    long countByJobId(UUID jobId);
+
     long countByJobRecruiterId(UUID recruiterId);
+    
+    long countByJobCompanyId(UUID companyId);
     
     long countByJobRecruiterIdAndStatusIn(UUID recruiterId, List<com.interviewiq.application.enums.ApplicationStatus> statuses);
     

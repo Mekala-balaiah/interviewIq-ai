@@ -53,7 +53,7 @@ public class RecruiterServiceImpl implements RecruiterService {
         RecruiterProfile profile = recruiterProfileRepository.findByUserId(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("RecruiterProfile", "userId", userId));
 
-        long activeJobs = jobRepository.countByRecruiterIdAndStatusAndDeletedAtIsNull(profile.getId(), JobStatus.PUBLISHED);
+        long activeJobs = jobRepository.countByRecruiterIdAndStatusAndDeletedAtIsNull(profile.getId(), JobStatus.ACTIVE);
         
         long totalApps = applicationRepository.countByJobRecruiterId(profile.getId());
         

@@ -48,8 +48,8 @@ public class ApplicationServiceImpl implements ApplicationService {
             throw new ResourceNotFoundException("Job not found");
         }
         
-        if (job.getStatus() != JobStatus.PUBLISHED) {
-            throw new BusinessException("Cannot apply to a job that is not published");
+        if (job.getStatus() != JobStatus.ACTIVE) {
+            throw new BusinessException("Cannot apply to a job that is not active");
         }
 
         if (applicationRepository.findByJobIdAndCandidateId(job.getId(), profile.getId()).isPresent()) {

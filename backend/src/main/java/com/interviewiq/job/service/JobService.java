@@ -15,5 +15,5 @@ public interface JobService {
     JobDto getJobById(UUID jobId);
     JobDto getJobBySlug(String slug);
     PagedResponse<JobDto> getMyJobs(UUID recruiterId, Pageable pageable);
-    JobDto publishJob(UUID jobId, UUID recruiterId);
+    JobDto submitForApproval(UUID jobId, UUID recruiterId);
 }

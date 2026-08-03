@@ -88,14 +88,14 @@ public class JobController {
         return ApiResponse.success(null, "Job deleted successfully");
     }
 
-    @PutMapping("/{jobId}/publish")
+    @PutMapping("/{jobId}/submit-for-approval")
     @PreAuthorize("hasRole('RECRUITER')")
     @SecurityRequirement(name = "BearerAuth")
-    @Operation(summary = "Publish a draft job posting")
-    public ApiResponse<JobDto> publishJob(
+    @Operation(summary = "Submit a draft job posting for HR approval")
+    public ApiResponse<JobDto> submitForApproval(
             @PathVariable UUID jobId,
             @AuthenticationPrincipal UserPrincipal userPrincipal) {
-        return ApiResponse.success(jobService.publishJob(jobId, userPrincipal.getId()), "Job published successfully");
+        return ApiResponse.success(jobService.submitForApproval(jobId, userPrincipal.getId()), "Job submitted for approval successfully");
     }
 
     // --- Job Skills ---

@@ -5,6 +5,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.7.0] — 2026-08-03
+### Added
+- `hr_profiles` and `job_approvals` tables to track HR workflows.
+- `HrProfile` and `JobApproval` entities.
+- HR Service & Controllers to manage profiles, dashboard metrics, and job approvals.
+- Ability for recruiters to submit jobs for approval, moving them to `PENDING_APPROVAL`.
+- HR dashboard to view active jobs, pending jobs, and team size.
+
 ## [0.6.0] — 2026-08-03 | Sprint 6 — Module 6
 
 ### Added

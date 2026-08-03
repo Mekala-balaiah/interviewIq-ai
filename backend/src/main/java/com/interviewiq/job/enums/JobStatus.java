@@ -2,7 +2,9 @@ package com.interviewiq.job.enums;
 
 public enum JobStatus {
     DRAFT,
-    PUBLISHED,
+    PENDING_APPROVAL,
+    ACTIVE,
+    PAUSED,
     CLOSED,
     ARCHIVED
 }
