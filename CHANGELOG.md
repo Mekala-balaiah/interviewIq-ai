@@ -5,6 +5,20 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.18.0] - 2026-08-03
+### Added
+- **React 19 + Vite + TypeScript** frontend scaffold under `frontend/`.
+- Global design system: TailwindCSS v3 with glassmorphism, gradient, badge, and animation utilities.
+- `authStore.ts`: Zustand store with localStorage persistence for JWT auth state.
+- `lib/axios.ts`: Axios instance with Bearer token injection and 401 redirect interceptors.
+- `router/index.tsx`: React Router v7 route tree with `RequireAuth` and `RequireRole` guards.
+- **Auth pages**: `LoginPage` and `RegisterPage` with React Hook Form + Zod validation and Google OAuth button.
+- **Candidate Dashboard**: KPI cards + animated applications list with status badges.
+- **Candidate Profile**: Editable profile form with animated SVG completion ring.
+- **Recruiter Dashboard**: 5 KPI cards + Recharts pipeline funnel chart.
+- **Recruiter Jobs**: Job list with status filters and application counts.
+- **Candidate Search**: Elasticsearch-powered search UI with keyword, location, experience, skill pills, and remote filters.
+
 ## [0.17.0] - 2026-08-03
 ### Added
 - `application-test.yml`: Self-contained CI test profile (H2, no Kafka/Redis/ES required).
