@@ -250,48 +250,50 @@ Overall Completion: **65%** (13 out of 20 Sprints)
 - [x] Candidate advanced search (skills, experience)
 - [x] Job filtering (location, type, salary)
 - [x] Pagination & sorting consistency
-- [x] SSE real-time endpoint
-- [x] Kafka notification consumer
-- [x] Email notification service
-- [x] Notification center endpoints
 
-### Sprint 14 — Redis Cache Layer
+### Sprint 14 — Notifications
+- [ ] SSE real-time endpoint
+- [ ] Kafka notification consumer
+- [ ] Email notification service
+- [ ] Notification center endpoints
+
+### Sprint 15 — Redis Cache Layer
 - Dashboard caching
 - ATS score caching
 - AI response caching
 - Cache invalidation strategy
 
-### Sprint 15 — Elasticsearch
+### Sprint 16 — Elasticsearch
 - ES index configuration
 - Candidate search
 - Job search
 - Global search
 
-### Sprint 16 — Kafka Integration
+### Sprint 17 — Kafka Integration
 - Full producer/consumer wiring
 - Dead letter queues
 - Event replay
 
-### Sprint 17 — Testing Suite
+### Sprint 18 — Testing Suite
 - Controller tests
 - Service unit tests
 - Integration tests
 - Security tests
 - 80%+ coverage
 
-### Sprint 18 — Deployment
+### Sprint 19 — Deployment
 - Dockerfile (backend + frontend)
 - docker-compose.prod.yml
 - GitHub Actions deploy workflow
 - Render/Railway deployment
 
-### Sprint 19 — Performance Optimization
+### Sprint 20 — Performance Optimization
 - Query optimization
 - N+1 detection + fixes
 - Connection pool tuning
 - Cache hit rate analysis
 
-### Sprint 20 — Final Review
+### Sprint 21 — Final Review
 - End-to-end testing
 - Security audit
 - Documentation polish
