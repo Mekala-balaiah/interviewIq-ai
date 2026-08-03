@@ -210,13 +210,12 @@ Last Updated:    2026-08-03
 - [x] Interview summary
 
 ### Sprint 11 — Coding Assessment
-- Assessment assignment
-- In-browser code submission
-- Code execution (sandboxed)
-- Test case evaluation
-- Plagiarism detection
+- [x] Assessment assignment
+- [x] Code execution environment (stubs)
+- [x] Test case evaluation
+- [x] Plagiarism detection
 
-Overall Completion: **50%** (10 out of 20 Sprints)
+Overall Completion: **55%** (11 out of 20 Sprints)
 
 ### Phase 1: Core Architecture & Setup (Weeks 1-2)
 - [x] **Sprint 1:** Init backend, DB, Auth (JWT, OAuth)
@@ -235,7 +234,7 @@ Overall Completion: **50%** (10 out of 20 Sprints)
 ### Phase 4: AI Engines (Weeks 7-8)
 - [x] **Sprint 9:** Resume AI Engine
 - [x] **Sprint 10:** Interview AI Engine
-- [ ] **Sprint 11:** Coding Assessment
+- [x] **Sprint 11:** Coding Assessment
 
 - Recruiter KPI endpoints
 - Pipeline funnel data

@@ -5,6 +5,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.11.0] - 2026-08-03
+### Added
+- `Assessment`, `AssessmentQuestion`, `AssessmentSubmission` entities with JSONB mapping for tests/results.
+- `CodeExecutionService` stub simulating compiling code, running tests, and checking plagiarism.
+- Endpoints to assign, start, submit code to, and complete technical coding assessments in `AssessmentController`.
+
 ## [0.10.0] - 2026-08-03
 ### Added
 - `Interview`, `InterviewQuestion`, `InterviewResponse` entities representing the AI Interview Engine.
