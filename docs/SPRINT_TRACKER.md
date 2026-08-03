@@ -10,19 +10,19 @@
 ## 🏆 Overall Progress
 
 ```
-Sprint Progress: ████░░░░░░░░░░░░░░░░  4 / 20 sprints (20%)
-Version:         0.4.0
+Sprint Progress: █████░░░░░░░░░░░░░░░  5 / 20 sprints (25%)
+Version:         0.5.0
 Last Updated:    2026-08-03
 ```
 
 | Metric | Value |
 |--------|-------|
 | **Total Sprints** | 20 |
-| **Completed** | 4 |
-| **In Progress** | Sprint 5 |
-| **Remaining** | 16 |
-| **Current Version** | `0.4.0` |
-| **Next Release** | `0.5.0` (Sprint 5 — Candidate) |
+| **Completed** | 5 |
+| **In Progress** | Sprint 6 |
+| **Remaining** | 15 |
+| **Current Version** | `0.5.0` |
+| **Next Release** | `0.6.0` (Sprint 6 — Recruiter) |
 
 ---
 
@@ -34,8 +34,8 @@ Last Updated:    2026-08-03
 | 2 | System Architecture & DB Design | ✅ Done | `0.2.0` | [#2](https://github.com/Mekala-balaiah/interviewiq-ai/issues/2) | [v0.2.0](https://github.com/Mekala-balaiah/interviewiq-ai/releases/tag/v0.2.0) | `main` |
 | 3 | Spring Boot Project Setup | ✅ Done | `0.3.0` | [#3](https://github.com/Mekala-balaiah/interviewiq-ai/issues/3) | [v0.3.0](https://github.com/Mekala-balaiah/interviewiq-ai/releases/tag/v0.3.0) | `main` |
 | 4 | Authentication & Authorization | ✅ Done | `0.4.0` | [#4](https://github.com/Mekala-balaiah/interviewiq-ai/issues/4) | [v0.4.0](https://github.com/Mekala-balaiah/interviewiq-ai/releases/tag/v0.4.0) | `main` |
-| 5 | Candidate Module | 🔄 Active | `0.5.0` | [#5](https://github.com/Mekala-balaiah/interviewiq-ai/issues/5) | — | `sprint/5-candidate` |
-| 6 | Recruiter Module | ⬜ Planned | `0.6.0` | [#6](https://github.com/Mekala-balaiah/interviewiq-ai/issues/6) | — | — |
+| 5 | Candidate Module | ✅ Done | `0.5.0` | [#5](https://github.com/Mekala-balaiah/interviewiq-ai/issues/5) | [v0.5.0](https://github.com/Mekala-balaiah/interviewiq-ai/releases/tag/v0.5.0) | `main` |
+| 6 | Recruiter Module | 🔄 Active | `0.6.0` | [#6](https://github.com/Mekala-balaiah/interviewiq-ai/issues/6) | — | `sprint/6-recruiter` |
 | 7 | HR Module | ⬜ Planned | `0.7.0` | [#7](https://github.com/Mekala-balaiah/interviewiq-ai/issues/7) | — | — |
 | 8 | Admin Module | ⬜ Planned | `0.8.0` | [#8](https://github.com/Mekala-balaiah/interviewiq-ai/issues/8) | — | — |
 | 9 | Resume AI Engine | ⬜ Planned | `0.9.0` | [#9](https://github.com/Mekala-balaiah/interviewiq-ai/issues/9) | — | — |
@@ -142,18 +142,27 @@ Last Updated:    2026-08-03
 
 ---
 
+## ✅ Completed Sprints
+
+### Sprint 5 — Module 5: Candidate Module `v0.5.0`
+
+> **Closed:** 2026-08-03 | **Branch:** `main`
+
+| Deliverable | File | Status |
+|-------------|------|--------|
+| Enums | `candidate/enums/*`, `job/enums/*`, `application/enums/*` | ✅ |
+| Entities | `CandidateProfile`, `Skill`, `CandidateSkill`, `Resume`, `Application` + Stubs | ✅ |
+| Repositories | `candidate/repository/*`, `application/repository/*` | ✅ |
+| DTOs | `candidate/dto/*`, `application/dto/*` | ✅ |
+| MapStruct Mappers | `CandidateMapper`, `SkillMapper`, `ResumeMapper`, `ApplicationMapper` | ✅ |
+| File Storage Service | `FileStorageService`, `LocalFileStorageServiceImpl` | ✅ |
+| Services | `CandidateService`, `SkillService`, `CandidateSkillService`, `ResumeService`, `ApplicationService` | ✅ |
+| Controllers | `CandidateProfileController`, `SkillController`, `ResumeController`, `ApplicationController` | ✅ |
+| Unit & Integration Tests | `*Test.java` | ✅ |
+
+---
+
 ## 🔄 Active Sprint
-
-### Sprint 5 — Candidate Module `v0.5.0`
-
-> **Started:** 2026-08-03 | **Target:** Sprint completion
-
-#### Planned Deliverables
-- [ ] Candidate profile CRUD endpoints
-- [ ] Resume upload and storage integration (AWS S3 / Local)
-- [ ] Candidate skills management endpoints
-- [ ] Job application submission
-- [ ] Profile completion calculation logic
 
 ### Sprint 6 — Recruiter Module
 - Job posting CRUD
@@ -259,8 +268,9 @@ main                    ← Production-ready code (protected)
         ├── sprint/2-system-architecture ✅ merged
         ├── sprint/3-spring-boot-setup   ✅ merged
         ├── sprint/4-auth                ✅ merged
-        ├── sprint/5-candidate          🔄 current
-        ├── sprint/6-recruiter          ⬜ next
+        ├── sprint/5-candidate           ✅ merged
+        ├── sprint/6-recruiter          🔄 current
+        ├── sprint/7-hr                 ⬜ next
 ```
 
 ## 🏷️ Label System
@@ -287,7 +297,8 @@ main                    ← Production-ready code (protected)
 | Sprint 2 | 9 | ~1,200 | 1 session |
 | Sprint 3 | 20 | ~1,800 | 1 session |
 | Sprint 4 | 19 | ~1,100 | 1 session |
-| Sprint 5 | TBD | TBD | — |
+| Sprint 5 | 27 | ~1,500 | 1 session |
+| Sprint 6 | TBD | TBD | — |
 
 ---
 

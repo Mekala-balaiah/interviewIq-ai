@@ -5,6 +5,34 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.5.0] — 2026-08-03 | Sprint 5 — Module 5
+
+### Added
+- `candidate/enums/*` — `SkillProficiency`, `ResumeParseStatus` enums
+- `job/enums/*` — `JobStatus`, `EmploymentType`, `WorkMode`, `ExperienceLevel` enums
+- `application/enums/*` — `ApplicationStatus` enum
+- `candidate/entity/*` — `CandidateProfile`, `Skill`, `CandidateSkill`, `Resume` entities
+- `application/entity/*` — `Application` entity
+- `company/entity/*` — `Company` stub entity
+- `job/entity/*` — `Job` stub entity
+- `recruiter/entity/*` — `RecruiterProfile` stub entity
+- `candidate/repository/*` — 4 repositories for Candidate module entities
+- `application/repository/*` — `ApplicationRepository`
+- `candidate/dto/*` — 5 DTOs (`CandidateProfileDto`, `UpdateCandidateProfileRequest`, `SkillDto`, `CandidateSkillDto`, `AddCandidateSkillRequest`, `ResumeDto`)
+- `application/dto/*` — 2 DTOs (`ApplicationDto`, `ApplyForJobRequest`)
+- `candidate/mapper/*` — `CandidateMapper`, `SkillMapper`, `ResumeMapper` (MapStruct)
+- `application/mapper/*` — `ApplicationMapper` (MapStruct)
+- `common/storage/*` — `FileStorageService` and `LocalFileStorageServiceImpl` for multipart uploads
+- `candidate/service/*` — `CandidateService`, `SkillService`, `CandidateSkillService`, `ResumeService` implementations
+- `application/service/*` — `ApplicationService` implementation
+- `candidate/controller/*` — `CandidateProfileController`, `SkillController`, `ResumeController` with Swagger and Security annotations
+- `application/controller/*` — `ApplicationController`
+- `test/.../CandidateServiceTest.java` — Unit tests for profile completion calculation
+- `test/.../CandidateProfileControllerTest.java` — Integration tests for Candidate Profile API
+- `test/.../ResumeControllerTest.java` — Integration tests for Resume API with Multipart mock
+
+---
+
 ## [0.4.0] — 2026-08-03 | Sprint 4 — Module 4
 
 ### Added
