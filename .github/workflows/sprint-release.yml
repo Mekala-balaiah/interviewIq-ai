@@ -1,0 +1,127 @@
+name: 🏷️ Sprint Release — Tag & GitHub Release
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'VERSION'
+
+jobs:
+  release:
+    name: 🚀 Create Sprint Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📌 Read version
+        id: version
+        run: echo "VERSION=$(cat VERSION | tr -d '[:space:]')" >> $GITHUB_OUTPUT
+
+      - name: 📋 Read CHANGELOG for this version
+        id: changelog
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          CHANGELOG=$(awk "/## \[$VERSION\]/{flag=1; next} /## \[/{flag=0} flag" CHANGELOG.md)
+          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: 🏷️ Create Git tag
+        run: |
+          VERSION="v${{ steps.version.outputs.VERSION }}"
+          git config user.name "Mekala-balaiah"
+          git config user.email "balaiahyadav12@gmail.com"
+          git tag -a "$VERSION" -m "Release $VERSION"
+          git push origin "$VERSION"
+
+      - name: 📦 Build backend JAR
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: 📦 Package
+        working-directory: backend
+        run: mvn package -DskipTests -q -B
+
+      - name: 🚀 Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "v${{ steps.version.outputs.VERSION }}"
+          name: "InterviewIQ AI v${{ steps.version.outputs.VERSION }}"
+          body: |
+            # InterviewIQ AI — Release v${{ steps.version.outputs.VERSION }}
+            
+            ## 📋 What changed in this sprint:
+            
+            ${{ steps.changelog.outputs.CHANGELOG }}
+            
+            ---
+            
+            ## 🚀 Quick Start
+            
+            ```bash
+            # Start all infrastructure
+            docker-compose up -d
+            
+            # Run the backend
+            cd backend && mvn spring-boot:run -Dspring-boot.run.profiles=dev
+            ```
+            
+            ## 📚 Documentation
+            - [Sprint Tracker](docs/SPRINT_TRACKER.md)
+            - [Architecture Overview](docs/ARCHITECTURE_OVERVIEW.md)
+            - [API Design](docs/API_DESIGN.md)
+            
+            **Full Changelog:** https://github.com/Mekala-balaiah/interviewiq-ai/blob/main/CHANGELOG.md
+          files: backend/target/*.jar
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  # ============================================================
+  # Close the sprint GitHub Issue automatically
+  # ============================================================
+  close-sprint-issue:
+    name: 📌 Close Sprint Issue
+    runs-on: ubuntu-latest
+    needs: release
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🔒 Close sprint issue
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const version = require('fs').readFileSync('VERSION', 'utf8').trim();
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: 'sprint',
+              state: 'open'
+            });
+            for (const issue of issues.data) {
+              if (issue.title.includes(version) || issue.body?.includes(version)) {
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  state: 'closed'
+                });
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  body: `## ✅ Sprint Complete!\n\nRelease **v${version}** has been published.\n\n[View Release](https://github.com/Mekala-balaiah/interviewiq-ai/releases/tag/v${version})`
+                });
+              }
+            }

@@ -1,0 +1,322 @@
+# ============================================================
+# InterviewIQ AI — Application Configuration
+# Base configuration (active: dev | prod)
+# ============================================================
+
+spring:
+  application:
+    name: interviewiq-backend
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+  # ============================================================
+  # DataSource (PostgreSQL via HikariCP)
+  # ============================================================
+  datasource:
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/interviewiq_db}
+    username: ${DATASOURCE_USERNAME:interviewiq}
+    password: ${DATASOURCE_PASSWORD:interviewiq_pass}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      pool-name: InterviewIQ-HikariPool
+      maximum-pool-size: ${DB_POOL_MAX:20}
+      minimum-idle: ${DB_POOL_MIN:5}
+      idle-timeout: 300000          # 5 minutes
+      max-lifetime: 1800000         # 30 minutes
+      connection-timeout: 30000     # 30 seconds
+      connection-test-query: SELECT 1
+      auto-commit: false
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+        reWriteBatchedInserts: true
+
+  # ============================================================
+  # JPA / Hibernate
+  # ============================================================
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        use_sql_comments: true
+        jdbc:
+          batch_size: 50
+          order_inserts: true
+          order_updates: true
+        default_batch_fetch_size: 20
+        generate_statistics: false
+        cache:
+          use_second_level_cache: false
+    open-in-view: false
+
+  # ============================================================
+  # Flyway
+  # ============================================================
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: false
+    validate-on-migrate: true
+    out-of-order: false
+    table: flyway_schema_history
+    schemas: public
+
+  # ============================================================
+  # Redis
+  # ============================================================
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 16
+          max-idle: 8
+          min-idle: 2
+          max-wait: 1000ms
+          time-between-eviction-runs: 60000ms
+
+  # ============================================================
+  # Kafka
+  # ============================================================
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      retries: 3
+      properties:
+        enable.idempotence: true
+        max.in.flight.requests.per.connection: 5
+    consumer:
+      group-id: ${KAFKA_CONSUMER_GROUP:interviewiq-group}
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: com.interviewiq.*
+        isolation.level: read_committed
+    listener:
+      ack-mode: manual_immediate
+      concurrency: 3
+
+  # ============================================================
+  # Elasticsearch
+  # ============================================================
+  elasticsearch:
+    uris: ${ELASTICSEARCH_URI:http://localhost:9200}
+    username: ${ELASTICSEARCH_USERNAME:}
+    password: ${ELASTICSEARCH_PASSWORD:}
+    connection-timeout: 5s
+    socket-timeout: 30s
+
+  # ============================================================
+  # Cache
+  # ============================================================
+  cache:
+    type: redis
+    redis:
+      time-to-live: 1800000   # 30 minutes default
+      cache-null-values: false
+      use-key-prefix: true
+      key-prefix: "interviewiq:"
+
+  # ============================================================
+  # Mail
+  # ============================================================
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          timeout: 5000
+          connectiontimeout: 5000
+
+  # ============================================================
+  # File Upload
+  # ============================================================
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 12MB
+      file-size-threshold: 2KB
+
+  # ============================================================
+  # Session (Redis-backed)
+  # ============================================================
+  session:
+    store-type: redis
+    redis:
+      namespace: interviewiq:session
+    timeout: 604800s   # 7 days
+
+  # ============================================================
+  # Spring AI (OpenAI)
+  # ============================================================
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY:}
+      base-url: ${OPENAI_BASE_URL:https://api.openai.com}
+      chat:
+        options:
+          model: ${OPENAI_CHAT_MODEL:gpt-4o-mini}
+          temperature: 0.7
+          max-tokens: 4096
+      embedding:
+        options:
+          model: ${OPENAI_EMBEDDING_MODEL:text-embedding-3-small}
+
+# ============================================================
+# Server
+# ============================================================
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/plain
+    min-response-size: 1024
+  http2:
+    enabled: true
+  error:
+    include-message: never
+    include-binding-errors: never
+    include-stacktrace: never
+    include-exception: false
+
+# ============================================================
+# Management (Actuator)
+# ============================================================
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: when-authorized
+      show-components: when-authorized
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: InterviewIQ AI
+    version: "@project.version@"
+    description: Enterprise AI Recruitment & Interview Intelligence Platform
+
+# ============================================================
+# Logging
+# ============================================================
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%X{requestId}] %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%X{requestId}] %logger{36} - %msg%n"
+  level:
+    root: INFO
+    com.interviewiq: DEBUG
+    org.springframework.security: WARN
+    org.hibernate.SQL: WARN
+    org.springframework.kafka: WARN
+    org.flywaydb: INFO
+
+# ============================================================
+# OpenAPI / Swagger
+# ============================================================
+springdoc:
+  api-docs:
+    path: /api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    tags-sorter: alpha
+    operations-sorter: alpha
+    display-request-duration: true
+    try-it-out-enabled: true
+  show-actuator: false
+
+# ============================================================
+# InterviewIQ Custom Properties
+# ============================================================
+interviewiq:
+  # JWT Configuration
+  jwt:
+    secret: ${JWT_SECRET:interviewiq-super-secret-key-minimum-256-bits-required-for-hs256-algorithm}
+    access-token-expiration-ms: ${JWT_ACCESS_EXPIRY_MS:900000}        # 15 minutes
+    refresh-token-expiration-ms: ${JWT_REFRESH_EXPIRY_MS:604800000}   # 7 days
+
+  # OAuth2
+  oauth2:
+    authorized-redirect-uris: ${OAUTH2_REDIRECT_URIS:http://localhost:3000/oauth2/callback}
+
+  # Rate Limiting
+  rate-limiting:
+    enabled: ${RATE_LIMIT_ENABLED:true}
+    api-requests-per-minute: ${RATE_LIMIT_API_RPM:100}
+    auth-requests-per-minute: ${RATE_LIMIT_AUTH_RPM:10}
+    ai-requests-per-minute: ${RATE_LIMIT_AI_RPM:20}
+
+  # File Storage
+  storage:
+    type: ${STORAGE_TYPE:local}             # local | s3
+    local-upload-dir: ${UPLOAD_DIR:./uploads}
+    s3-bucket: ${S3_BUCKET:}
+    s3-region: ${S3_REGION:us-east-1}
+
+  # AI Configuration
+  ai:
+    resume-analysis-enabled: ${AI_RESUME_ENABLED:true}
+    interview-ai-enabled: ${AI_INTERVIEW_ENABLED:true}
+    max-questions-per-interview: ${AI_MAX_QUESTIONS:15}
+    ats-score-weights:
+      keyword-match: 40
+      semantic-match: 30
+      format: 15
+      experience: 15
+
+  # Email
+  email:
+    from-address: ${EMAIL_FROM:noreply@interviewiq.ai}
+    from-name: ${EMAIL_FROM_NAME:InterviewIQ AI}
+
+  # CORS
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:5173}
+    allowed-methods: GET,POST,PUT,DELETE,PATCH,OPTIONS
+    allow-credentials: true
+    max-age: 3600
+
+  # Kafka Topics
+  kafka:
+    topics:
+      interview-created: interview-iq.interview.created
+      resume-uploaded: interview-iq.resume.uploaded
+      candidate-applied: interview-iq.candidate.applied
+      assessment-completed: interview-iq.assessment.completed
+      auth-events: interview-iq.auth.events
+      email-events: interview-iq.email.events
+      notification-events: interview-iq.notification.events

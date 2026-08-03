@@ -1,0 +1,212 @@
+version: '3.9'
+
+# ============================================================
+# InterviewIQ AI — Docker Compose (Development)
+# Starts all infrastructure services for local development
+# ============================================================
+# Usage:
+#   docker-compose up -d          (start all services)
+#   docker-compose down -v        (stop + remove volumes)
+#   docker-compose logs -f kafka  (tail kafka logs)
+# ============================================================
+
+services:
+
+  # ============================================================
+  # PostgreSQL 16 — Primary Database
+  # ============================================================
+  postgres:
+    image: postgres:16-alpine
+    container_name: interviewiq-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: interviewiq_db
+      POSTGRES_USER: interviewiq
+      POSTGRES_PASSWORD: interviewiq_pass
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infra/docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U interviewiq -d interviewiq_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - interviewiq-network
+
+  # ============================================================
+  # Redis 7 — Cache + Session Store
+  # ============================================================
+  redis:
+    image: redis:7-alpine
+    container_name: interviewiq-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - interviewiq-network
+
+  # ============================================================
+  # Zookeeper — Required by Kafka
+  # ============================================================
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.7.0
+    container_name: interviewiq-zookeeper
+    restart: unless-stopped
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_LOG4J_ROOT_LOGLEVEL: WARN
+    ports:
+      - "2181:2181"
+    volumes:
+      - zookeeper_data:/var/lib/zookeeper/data
+      - zookeeper_logs:/var/lib/zookeeper/log
+    networks:
+      - interviewiq-network
+
+  # ============================================================
+  # Kafka 3.7 — Event Streaming
+  # ============================================================
+  kafka:
+    image: confluentinc/cp-kafka:7.7.0
+    container_name: interviewiq-kafka
+    restart: unless-stopped
+    depends_on:
+      zookeeper:
+        condition: service_started
+    ports:
+      - "9092:9092"
+      - "9101:9101"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_JMX_PORT: 9101
+      KAFKA_JMX_HOSTNAME: localhost
+      KAFKA_LOG4J_ROOT_LOGLEVEL: WARN
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    healthcheck:
+      test: ["CMD", "kafka-topics", "--bootstrap-server", "localhost:9092", "--list"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - interviewiq-network
+
+  # ============================================================
+  # Kafka UI — Web UI for Kafka management (dev only)
+  # ============================================================
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: interviewiq-kafka-ui
+    restart: unless-stopped
+    depends_on:
+      - kafka
+    ports:
+      - "8090:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: interviewiq-local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+    networks:
+      - interviewiq-network
+
+  # ============================================================
+  # Elasticsearch 8 — Search Engine
+  # ============================================================
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.3
+    container_name: interviewiq-elasticsearch
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - ELASTIC_PASSWORD=interviewiq_es
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - interviewiq-network
+
+  # ============================================================
+  # Kibana — Elasticsearch UI (dev only)
+  # ============================================================
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.14.3
+    container_name: interviewiq-kibana
+    restart: unless-stopped
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+      XPACK_SECURITY_ENABLED: "false"
+    networks:
+      - interviewiq-network
+
+  # ============================================================
+  # MailHog — Local SMTP + Web UI for email testing
+  # ============================================================
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: interviewiq-mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI
+    networks:
+      - interviewiq-network
+
+# ============================================================
+# Networks
+# ============================================================
+networks:
+  interviewiq-network:
+    driver: bridge
+    name: interviewiq-network
+
+# ============================================================
+# Volumes (persistent data)
+# ============================================================
+volumes:
+  postgres_data:
+    name: interviewiq_postgres_data
+  redis_data:
+    name: interviewiq_redis_data
+  zookeeper_data:
+    name: interviewiq_zookeeper_data
+  zookeeper_logs:
+    name: interviewiq_zookeeper_logs
+  kafka_data:
+    name: interviewiq_kafka_data
+  elasticsearch_data:
+    name: interviewiq_elasticsearch_data

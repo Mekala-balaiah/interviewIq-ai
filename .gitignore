@@ -1,0 +1,48 @@
+# ============================================================
+# .gitignore — InterviewIQ AI
+# ============================================================
+
+# Environment & Secrets
+.env
+*.env.local
+*.env.production
+
+# Build outputs
+backend/target/
+frontend/dist/
+frontend/.vite/
+frontend/node_modules/
+
+# IDE
+.idea/
+*.iml
+*.iws
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Uploads (local dev)
+uploads/
+
+# Spring Boot
+backend/src/main/resources/application-local.yml
+
+# Maven
+.mvn/wrapper/maven-wrapper.jar
+
+# Docker volumes (never commit these)
+postgres_data/
+redis_data/
+
+# Test reports
+backend/target/surefire-reports/
+frontend/coverage/

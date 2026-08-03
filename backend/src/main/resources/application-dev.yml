@@ -1,0 +1,51 @@
+# ============================================================
+# InterviewIQ AI — DEV Profile
+# Overrides for local development environment
+# ============================================================
+
+spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        generate_statistics: false
+
+  # Dev mail: MailHog or Mailtrap
+  mail:
+    host: ${MAIL_HOST:localhost}
+    port: ${MAIL_PORT:1025}
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+
+logging:
+  level:
+    root: INFO
+    com.interviewiq: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.kafka: INFO
+    org.flywaydb: DEBUG
+    dev.langchain4j: DEBUG
+
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: on_param
+
+springdoc:
+  swagger-ui:
+    enabled: true
+
+interviewiq:
+  rate-limiting:
+    enabled: false   # Disable in dev for easy testing
+  storage:
+    type: local
+    local-upload-dir: ./uploads/dev

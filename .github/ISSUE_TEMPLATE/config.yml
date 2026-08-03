@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 Documentation
+    url: https://github.com/Mekala-balaiah/interviewiq-ai/tree/main/docs
+    about: Browse the full project documentation
+  - name: 📊 Sprint Tracker
+    url: https://github.com/Mekala-balaiah/interviewiq-ai/blob/main/docs/SPRINT_TRACKER.md
+    about: View the current sprint progress
+  - name: 🗺️ Project Board
+    url: https://github.com/users/Mekala-balaiah/projects
+    about: View the GitHub Project Board

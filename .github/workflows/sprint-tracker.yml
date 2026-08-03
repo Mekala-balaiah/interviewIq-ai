@@ -1,0 +1,37 @@
+name: 📊 Sprint Tracker Auto-Update
+
+on:
+  issues:
+    types: [opened, closed, labeled]
+  push:
+    branches: [main]
+    paths:
+      - 'docs/SPRINT_TRACKER.md'
+      - 'VERSION'
+
+jobs:
+  update-tracker:
+    name: 📊 Update Sprint Tracker Badge
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 📊 Calculate sprint progress
+        id: progress
+        run: |
+          VERSION=$(cat VERSION | tr -d '[:space:]')
+          MAJOR=$(echo $VERSION | cut -d. -f1)
+          MINOR=$(echo $VERSION | cut -d. -f2)
+          SPRINT=$MINOR
+          TOTAL=20
+          PCT=$((SPRINT * 100 / TOTAL))
+          echo "SPRINT=$SPRINT" >> $GITHUB_OUTPUT
+          echo "TOTAL=$TOTAL" >> $GITHUB_OUTPUT
+          echo "PCT=$PCT" >> $GITHUB_OUTPUT
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: 💬 Update README badge
+        run: |
+          echo "Sprint ${{ steps.progress.outputs.SPRINT }}/${{ steps.progress.outputs.TOTAL }} (${{ steps.progress.outputs.PCT }}%) complete"

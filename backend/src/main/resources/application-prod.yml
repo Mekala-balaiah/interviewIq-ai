@@ -1,0 +1,54 @@
+# ============================================================
+# InterviewIQ AI — PRODUCTION Profile
+# Overrides for production environment
+# ============================================================
+
+spring:
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: false
+        generate_statistics: false
+
+  # Production Redis — TLS enabled
+  data:
+    redis:
+      ssl:
+        enabled: ${REDIS_SSL_ENABLED:false}
+
+logging:
+  level:
+    root: WARN
+    com.interviewiq: INFO
+    org.springframework.security: WARN
+    org.hibernate.SQL: WARN
+    org.flywaydb: INFO
+  file:
+    name: ${LOG_FILE:/var/log/interviewiq/app.log}
+    max-size: 100MB
+    max-history: 30
+    total-size-cap: 3GB
+
+server:
+  error:
+    include-message: never
+    include-binding-errors: never
+    include-stacktrace: never
+    include-exception: false
+  # Production SSL (handled by reverse proxy/load balancer typically)
+  forward-headers-strategy: native
+
+springdoc:
+  swagger-ui:
+    enabled: ${SWAGGER_ENABLED:false}  # Disable in prod by default
+  api-docs:
+    enabled: ${API_DOCS_ENABLED:false}
+
+interviewiq:
+  rate-limiting:
+    enabled: true
+  storage:
+    type: ${STORAGE_TYPE:s3}
