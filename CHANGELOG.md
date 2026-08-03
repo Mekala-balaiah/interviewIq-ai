@@ -5,7 +5,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [0.7.0] — 2026-08-03
+## [0.8.0] - 2026-08-03
+### Added
+- `messages` and `message_attachments` tables for internal communication.
+- `Message` and `MessageAttachment` entities.
+- `MessagingService` with support for direct messaging, conversation retrieval, and application-specific messages.
+- Webhook endpoint `/api/v1/webhooks/email/inbound` to parse incoming emails and convert them into internal messages.
+
+## [0.7.0] - 2026-08-03
 ### Added
 - `hr_profiles` and `job_approvals` tables to track HR workflows.
 - `HrProfile` and `JobApproval` entities.
