@@ -5,6 +5,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.14.0] - 2026-08-03
+### Added
+- Real-time Server-Sent Events (SSE) `/stream` endpoint for live notifications.
+- Kafka-based background `NotificationConsumer` for processing events from the `notification-events` topic.
+- In-App persistent notifications tracking with read/unread statuses.
+- Mock `EmailNotificationService` for demonstration.
+
 ## [0.13.0] - 2026-08-03
 ### Added
 - Advanced Search capability using Spring Data JPA Specifications.

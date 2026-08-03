@@ -42,8 +42,8 @@ Last Updated:    2026-08-03
 | 10 | Interview AI Engine | ⬜ Planned | `0.10.0` | [#10](https://github.com/Mekala-balaiah/interviewiq-ai/issues/10) | — | — |
 | 11 | Coding Assessment | ⬜ Planned | `0.11.0` | [#11](https://github.com/Mekala-balaiah/interviewiq-ai/issues/11) | — | — |
 | 12 | Dashboard & Analytics | ⬜ Planned | `0.12.0` | [#12](https://github.com/Mekala-balaiah/interviewiq-ai/issues/12) | — | — |
-| 13 | Notifications (Kafka + SSE) | ⬜ Planned | `0.13.0` | [#13](https://github.com/Mekala-balaiah/interviewiq-ai/issues/13) | — | — |
-| 14 | Redis Cache Layer | ⬜ Planned | `0.14.0` | [#14](https://github.com/Mekala-balaiah/interviewiq-ai/issues/14) | — | — |
+| 13 | Notifications (Kafka + SSE) | ✅ Done | `0.14.0` | [#13](https://github.com/Mekala-balaiah/interviewiq-ai/issues/13) | — | — |
+| 14 | Redis Cache Layer | ⬜ Planned | `0.15.0` | [#14](https://github.com/Mekala-balaiah/interviewiq-ai/issues/14) | — | — |
 | 15 | Elasticsearch Search | ⬜ Planned | `0.15.0` | [#15](https://github.com/Mekala-balaiah/interviewiq-ai/issues/15) | — | — |
 | 16 | Kafka Messaging | ⬜ Planned | `0.16.0` | [#16](https://github.com/Mekala-balaiah/interviewiq-ai/issues/16) | — | — |
 | 17 | Testing Suite | ⬜ Planned | `0.17.0` | [#17](https://github.com/Mekala-balaiah/interviewiq-ai/issues/17) | — | — |
@@ -215,7 +215,7 @@ Last Updated:    2026-08-03
 - [x] Test case evaluation
 - [x] Plagiarism detection
 
-Overall Completion: **65%** (13 out of 20 Sprints)
+Overall Completion: **70%** (14 out of 20 Sprints)
 
 ### Phase 1: Core Architecture & Setup (Weeks 1-2)
 - [x] **Sprint 1:** Init backend, DB, Auth (JWT, OAuth)
@@ -239,6 +239,7 @@ Overall Completion: **65%** (13 out of 20 Sprints)
 ### Phase 5: Dashboard & Analytics (Weeks 9-10)
 - [x] **Sprint 12:** Dashboard & Analytics
 - [x] **Sprint 13:** Search & Filtering
+- [x] **Sprint 14:** Notifications
 
 ### Sprint 12 — Dashboard & Analytics
 - [x] Recruiter KPI endpoints
@@ -252,10 +253,10 @@ Overall Completion: **65%** (13 out of 20 Sprints)
 - [x] Pagination & sorting consistency
 
 ### Sprint 14 — Notifications
-- [ ] SSE real-time endpoint
-- [ ] Kafka notification consumer
-- [ ] Email notification service
-- [ ] Notification center endpoints
+- [x] SSE real-time endpoint
+- [x] Kafka notification consumer
+- [x] Email notification service
+- [x] Notification center endpoints
 
 ### Sprint 15 — Redis Cache Layer
 - Dashboard caching
