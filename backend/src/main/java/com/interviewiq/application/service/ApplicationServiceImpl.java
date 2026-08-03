@@ -38,8 +38,8 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     @Transactional
-    public ApplicationDto applyForJob(UUID userId, ApplyForJobRequest request) {
-        CandidateProfile profile = candidateProfileRepository.findByUserId(userId)
+    public ApplicationDto applyForJob(UUID candidateUserId, ApplyForJobRequest request) {
+        CandidateProfile profile = candidateProfileRepository.findByUserId(candidateUserId)
                 .orElseThrow(() -> new ResourceNotFoundException("Candidate profile not found"));
 
         // Use EntityManager to reference the Job entity without needing a JobRepository right now
@@ -95,13 +95,56 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ApplicationDto> getMyApplications(UUID userId) {
-        CandidateProfile profile = candidateProfileRepository.findByUserId(userId)
+    public List<ApplicationDto> getMyApplications(UUID candidateUserId) {
+        CandidateProfile profile = candidateProfileRepository.findByUserId(candidateUserId)
                 .orElseThrow(() -> new ResourceNotFoundException("Candidate profile not found"));
                 
         return applicationRepository.findByCandidateId(profile.getId())
                 .stream()
                 .map(applicationMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public com.interviewiq.common.response.PagedResponse<ApplicationDto> getApplicationsForJob(UUID jobId, UUID recruiterUserId, org.springframework.data.domain.Pageable pageable) {
+        Job job = entityManager.find(Job.class, jobId);
+        if (job == null) {
+            throw new ResourceNotFoundException("Job not found");
+        }
+        
+        if (!job.getRecruiter().getUser().getId().equals(recruiterUserId)) {
+            throw new com.interviewiq.common.exception.UnauthorizedException("You are not authorized to view applications for this job");
+        }
+
+        org.springframework.data.domain.Page<Application> page = applicationRepository.findByJobId(jobId, pageable);
+        org.springframework.data.domain.Page<ApplicationDto> dtoPage = page.map(applicationMapper::toDto);
+
+        return new com.interviewiq.common.response.PagedResponse<>(
+                dtoPage.getContent(),
+                dtoPage.getNumber(),
+                dtoPage.getSize(),
+                dtoPage.getTotalElements(),
+                dtoPage.getTotalPages(),
+                dtoPage.isLast()
+        );
+    }
+
+    @Override
+    @Transactional
+    public ApplicationDto updateApplicationStatus(UUID applicationId, UUID recruiterUserId, ApplicationStatus status) {
+        Application application = applicationRepository.findById(applicationId)
+                .orElseThrow(() -> new ResourceNotFoundException("Application not found"));
+
+        if (!application.getJob().getRecruiter().getUser().getId().equals(recruiterUserId)) {
+            throw new com.interviewiq.common.exception.UnauthorizedException("You are not authorized to update this application");
+        }
+
+        application.setStatus(status);
+        application = applicationRepository.save(application);
+        
+        // TODO: Send notification to candidate about status update
+        
+        return applicationMapper.toDto(application);
     }
 }

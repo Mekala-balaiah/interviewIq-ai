@@ -11,6 +11,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.time.Instant;
+
 @Entity
 @Table(name = "jobs")
 @Getter
@@ -49,4 +52,36 @@ public class Job extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private JobStatus status = JobStatus.DRAFT;
+    
+    @Column(columnDefinition = "TEXT")
+    private String requirements;
+    
+    @Column(name = "min_experience_years")
+    private Integer minExperienceYears = 0;
+    
+    @Column(name = "max_experience_years")
+    private Integer maxExperienceYears;
+    
+    private String location;
+    
+    @Column(name = "salary_min")
+    private BigDecimal salaryMin;
+    
+    @Column(name = "salary_max")
+    private BigDecimal salaryMax;
+    
+    @Column(name = "salary_currency")
+    private String salaryCurrency = "USD";
+    
+    @Column(name = "publish_date")
+    private Instant publishDate;
+    
+    @Column(name = "close_date")
+    private Instant closeDate;
+    
+    @Column(name = "application_count")
+    private Integer applicationCount = 0;
+    
+    @Column(name = "view_count")
+    private Integer viewCount = 0;
 }

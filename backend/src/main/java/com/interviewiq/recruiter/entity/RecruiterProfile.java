@@ -24,4 +24,15 @@ public class RecruiterProfile extends BaseEntity {
     private String title;
 
     private String department;
+    
+    private String specialization;
+    
+    @Column(columnDefinition = "TEXT")
+    private String bio;
+    
+    @Column(name = "linkedin_url")
+    private String linkedinUrl;
+    
+    @Column(name = "active_jobs_count")
+    private Integer activeJobsCount = 0;
 }

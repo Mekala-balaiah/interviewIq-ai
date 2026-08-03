@@ -23,6 +23,19 @@ public class Company extends BaseEntity {
     private String logoUrl;
 
     private String website;
+    
+    private String industry;
+    
+    @Column(name = "size_range")
+    private String sizeRange;
+    
+    @Column(columnDefinition = "TEXT")
+    private String description;
+    
+    private String headquarters;
+    
+    @Column(name = "linkedin_url")
+    private String linkedinUrl;
 
     @Column(name = "status", nullable = false)
     private String status = "ACTIVE";

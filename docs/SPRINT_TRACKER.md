@@ -10,19 +10,19 @@
 ## 🏆 Overall Progress
 
 ```
-Sprint Progress: █████░░░░░░░░░░░░░░░  5 / 20 sprints (25%)
-Version:         0.5.0
+Sprint Progress: ██████░░░░░░░░░░░░░░  6 / 20 sprints (30%)
+Version:         0.6.0
 Last Updated:    2026-08-03
 ```
 
 | Metric | Value |
 |--------|-------|
 | **Total Sprints** | 20 |
-| **Completed** | 5 |
-| **In Progress** | Sprint 6 |
-| **Remaining** | 15 |
-| **Current Version** | `0.5.0` |
-| **Next Release** | `0.6.0` (Sprint 6 — Recruiter) |
+| **Completed** | 6 |
+| **In Progress** | Sprint 7 |
+| **Remaining** | 14 |
+| **Current Version** | `0.6.0` |
+| **Next Release** | `0.7.0` (Sprint 7 — HR) |
 
 ---
 
@@ -35,8 +35,8 @@ Last Updated:    2026-08-03
 | 3 | Spring Boot Project Setup | ✅ Done | `0.3.0` | [#3](https://github.com/Mekala-balaiah/interviewiq-ai/issues/3) | [v0.3.0](https://github.com/Mekala-balaiah/interviewiq-ai/releases/tag/v0.3.0) | `main` |
 | 4 | Authentication & Authorization | ✅ Done | `0.4.0` | [#4](https://github.com/Mekala-balaiah/interviewiq-ai/issues/4) | [v0.4.0](https://github.com/Mekala-balaiah/interviewiq-ai/releases/tag/v0.4.0) | `main` |
 | 5 | Candidate Module | ✅ Done | `0.5.0` | [#5](https://github.com/Mekala-balaiah/interviewiq-ai/issues/5) | [v0.5.0](https://github.com/Mekala-balaiah/interviewiq-ai/releases/tag/v0.5.0) | `main` |
-| 6 | Recruiter Module | 🔄 Active | `0.6.0` | [#6](https://github.com/Mekala-balaiah/interviewiq-ai/issues/6) | — | `sprint/6-recruiter` |
-| 7 | HR Module | ⬜ Planned | `0.7.0` | [#7](https://github.com/Mekala-balaiah/interviewiq-ai/issues/7) | — | — |
+| 6 | Recruiter Module | ✅ Done | `0.6.0` | [#6](https://github.com/Mekala-balaiah/interviewiq-ai/issues/6) | [v0.6.0](https://github.com/Mekala-balaiah/interviewiq-ai/releases/tag/v0.6.0) | `main` |
+| 7 | HR Module | 🔄 Active | `0.7.0` | [#7](https://github.com/Mekala-balaiah/interviewiq-ai/issues/7) | — | `sprint/7-hr` |
 | 8 | Admin Module | ⬜ Planned | `0.8.0` | [#8](https://github.com/Mekala-balaiah/interviewiq-ai/issues/8) | — | — |
 | 9 | Resume AI Engine | ⬜ Planned | `0.9.0` | [#9](https://github.com/Mekala-balaiah/interviewiq-ai/issues/9) | — | — |
 | 10 | Interview AI Engine | ⬜ Planned | `0.10.0` | [#10](https://github.com/Mekala-balaiah/interviewiq-ai/issues/10) | — | — |
@@ -164,12 +164,26 @@ Last Updated:    2026-08-03
 
 ## 🔄 Active Sprint
 
-### Sprint 6 — Recruiter Module
-- Job posting CRUD
-- Candidate pipeline management
-- Application status updates
-- Recruiter analytics endpoints
-- AI chatbot endpoint
+### Sprint 6 — Recruiter Module `v0.6.0`
+
+> **Closed:** 2026-08-03 | **Branch:** `main`
+
+| Deliverable | File | Status |
+|-------------|------|--------|
+| Entities (Fleshed Out) | `Company`, `RecruiterProfile`, `Job` | ✅ |
+| JobSkill Entity | `JobSkill` | ✅ |
+| Repositories | `CompanyRepository`, `RecruiterProfileRepository`, `JobRepository`, `JobSkillRepository` | ✅ |
+| DTOs | `*Dto.java`, `*Request.java` | ✅ |
+| MapStruct Mappers | `CompanyMapper`, `RecruiterMapper`, `JobMapper` | ✅ |
+| Services | `CompanyService`, `RecruiterService`, `JobService`, `JobSkillService` | ✅ |
+| Pipeline Service Update | `ApplicationService` (getApplicationsForJob, updateApplicationStatus) | ✅ |
+| Controllers | `CompanyController`, `RecruiterProfileController`, `JobController`, `PipelineController` | ✅ |
+| Recruiter AI Stub | `RecruiterChatbotController` | ✅ |
+| Integration Tests | `JobControllerTest`, `PipelineControllerTest` | ✅ |
+
+---
+
+## 🔄 Active Sprint
 
 ### Sprint 7 — HR Module
 - HR dashboard endpoints
@@ -269,8 +283,9 @@ main                    ← Production-ready code (protected)
         ├── sprint/3-spring-boot-setup   ✅ merged
         ├── sprint/4-auth                ✅ merged
         ├── sprint/5-candidate           ✅ merged
-        ├── sprint/6-recruiter          🔄 current
-        ├── sprint/7-hr                 ⬜ next
+        ├── sprint/6-recruiter           ✅ merged
+        ├── sprint/7-hr                 🔄 current
+        ├── sprint/8-admin              ⬜ next
 ```
 
 ## 🏷️ Label System
@@ -298,7 +313,8 @@ main                    ← Production-ready code (protected)
 | Sprint 3 | 20 | ~1,800 | 1 session |
 | Sprint 4 | 19 | ~1,100 | 1 session |
 | Sprint 5 | 27 | ~1,500 | 1 session |
-| Sprint 6 | TBD | TBD | — |
+| Sprint 6 | 21 | ~1,400 | 1 session |
+| Sprint 7 | TBD | TBD | — |
 
 ---
 

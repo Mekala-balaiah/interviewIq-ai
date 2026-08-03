@@ -5,6 +5,32 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.6.0] — 2026-08-03 | Sprint 6 — Module 6
+
+### Added
+- `company/entity/*` — Fleshed out `Company` entity
+- `recruiter/entity/*` — Fleshed out `RecruiterProfile` entity
+- `job/entity/*` — Fleshed out `Job` entity, created `JobSkill` join entity
+- `company/repository/*` — `CompanyRepository`
+- `recruiter/repository/*` — `RecruiterProfileRepository`
+- `job/repository/*` — `JobRepository`, `JobSkillRepository`
+- `company/dto/*` — `CompanyDto`, `UpdateCompanyRequest`
+- `recruiter/dto/*` — `RecruiterProfileDto`, `UpdateRecruiterProfileRequest`, `RecruiterDashboardDto`
+- `job/dto/*` — `JobDto`, `CreateJobRequest`, `UpdateJobRequest`, `JobSkillDto`, `AddJobSkillRequest`
+- `mapper/*` — MapStruct mappers for Company, RecruiterProfile, and Job
+- `company/service/*` — `CompanyService` implementation
+- `recruiter/service/*` — `RecruiterService` implementation
+- `job/service/*` — `JobService`, `JobSkillService` implementations
+- `application/service/*` — Updated `ApplicationService` for pipeline management
+- `company/controller/*` — `CompanyController`
+- `recruiter/controller/*` — `RecruiterProfileController`, `RecruiterChatbotController` (Stub)
+- `job/controller/*` — `JobController`
+- `application/controller/*` — `PipelineController`
+- `test/.../JobControllerTest.java` — Integration tests for Job API
+- `test/.../PipelineControllerTest.java` — Integration tests for Pipeline API
+
+---
+
 ## [0.5.0] — 2026-08-03 | Sprint 5 — Module 5
 
 ### Added

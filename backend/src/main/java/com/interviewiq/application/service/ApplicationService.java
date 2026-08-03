@@ -8,7 +8,8 @@ import java.util.UUID;
 
 public interface ApplicationService {
     
-    ApplicationDto applyForJob(UUID userId, ApplyForJobRequest request);
-    
-    List<ApplicationDto> getMyApplications(UUID userId);
+    ApplicationDto applyForJob(UUID candidateUserId, ApplyForJobRequest request);
+    List<ApplicationDto> getMyApplications(UUID candidateUserId);
+    com.interviewiq.common.response.PagedResponse<ApplicationDto> getApplicationsForJob(UUID jobId, UUID recruiterUserId, org.springframework.data.domain.Pageable pageable);
+    ApplicationDto updateApplicationStatus(UUID applicationId, UUID recruiterUserId, com.interviewiq.application.enums.ApplicationStatus status);
 }
