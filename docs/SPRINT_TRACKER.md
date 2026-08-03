@@ -215,7 +215,7 @@ Last Updated:    2026-08-03
 - [x] Test case evaluation
 - [x] Plagiarism detection
 
-Overall Completion: **55%** (11 out of 20 Sprints)
+Overall Completion: **60%** (12 out of 20 Sprints)
 
 ### Phase 1: Core Architecture & Setup (Weeks 1-2)
 - [x] **Sprint 1:** Init backend, DB, Auth (JWT, OAuth)
@@ -236,10 +236,14 @@ Overall Completion: **55%** (11 out of 20 Sprints)
 - [x] **Sprint 10:** Interview AI Engine
 - [x] **Sprint 11:** Coding Assessment
 
-- Recruiter KPI endpoints
-- Pipeline funnel data
-- Time-series charts data
-- Report generation
+### Phase 5: Dashboard & Analytics (Weeks 9-10)
+- [x] **Sprint 12:** Dashboard & Analytics
+
+### Sprint 12 — Dashboard & Analytics
+- [x] Recruiter KPI endpoints
+- [x] Pipeline funnel data
+- [x] Time-series charts data
+- [x] Report generation
 
 ### Sprint 13 — Notifications
 - SSE real-time endpoint

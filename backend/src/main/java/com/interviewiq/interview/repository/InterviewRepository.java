@@ -12,4 +12,7 @@ import java.util.UUID;
 public interface InterviewRepository extends JpaRepository<Interview, UUID> {
     Page<Interview> findByCandidateIdOrderByCreatedAtDesc(UUID candidateId, Pageable pageable);
     Page<Interview> findByJobIdOrderByCreatedAtDesc(UUID jobId, Pageable pageable);
+
+    @org.springframework.data.jpa.repository.Query("SELECT COUNT(i) FROM Interview i WHERE i.job.recruiter.id = :recruiterId")
+    long countByJobRecruiterId(@org.springframework.data.repository.query.Param("recruiterId") UUID recruiterId);
 }

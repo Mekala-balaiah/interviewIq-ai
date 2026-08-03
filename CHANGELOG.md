@@ -5,6 +5,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.12.0] - 2026-08-03
+### Added
+- `DashboardController` and `AnalyticsService` for recruiter KPIs, funnels, and application time-series trends.
+- Complex native `@Query` mapping in `ApplicationRepository` to serve dashboard charts efficiently.
+
 ## [0.11.0] - 2026-08-03
 ### Added
 - `Assessment`, `AssessmentQuestion`, `AssessmentSubmission` entities with JSONB mapping for tests/results.
