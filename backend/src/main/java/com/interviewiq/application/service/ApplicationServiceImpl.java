@@ -18,6 +18,7 @@ import com.interviewiq.job.enums.JobStatus;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +39,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "dashboard-kpis", allEntries = true)
     public ApplicationDto applyForJob(UUID candidateUserId, ApplyForJobRequest request) {
         CandidateProfile profile = candidateProfileRepository.findByUserId(candidateUserId)
                 .orElseThrow(() -> new ResourceNotFoundException("Candidate profile not found"));
@@ -132,6 +134,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "dashboard-kpis", allEntries = true)
     public ApplicationDto updateApplicationStatus(UUID applicationId, UUID recruiterUserId, ApplicationStatus status) {
         Application application = applicationRepository.findById(applicationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Application not found"));

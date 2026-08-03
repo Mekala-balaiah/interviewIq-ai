@@ -1,6 +1,7 @@
 package com.interviewiq.candidate.service;
 
 import com.interviewiq.candidate.dto.ResumeAnalysisDto;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -10,6 +11,7 @@ import java.util.List;
 public class MockAiServiceImpl implements AiService {
 
     @Override
+    @Cacheable(value = "ats-scores", key = "#resumeText.hashCode() + '_' + (#jobDescription != null ? #jobDescription.hashCode() : 0)")
     public ResumeAnalysisDto analyzeResume(String resumeText, String jobDescription) {
         // In a real implementation, we would call OpenAI/Anthropic API here
         // and instruct the LLM to return structured JSON.

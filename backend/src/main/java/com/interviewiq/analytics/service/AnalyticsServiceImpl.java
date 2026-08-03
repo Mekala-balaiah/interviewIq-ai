@@ -11,6 +11,7 @@ import com.interviewiq.job.enums.JobStatus;
 import com.interviewiq.job.repository.JobRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "dashboard-kpis", key = "#recruiterId")
     public RecruiterKpiDto getRecruiterKpis(UUID recruiterId) {
         long totalActiveJobs = jobRepository.countByRecruiterIdAndStatusAndDeletedAtIsNull(recruiterId, JobStatus.PUBLISHED);
         long totalApplications = applicationRepository.countByJobRecruiterId(recruiterId);
@@ -50,6 +52,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "dashboard-kpis", key = "'funnel_' + #recruiterId")
     public PipelineFunnelDto getPipelineFunnel(UUID recruiterId) {
         List<Object[]> results = applicationRepository.countApplicationsByStatusForRecruiter(recruiterId);
         
@@ -75,6 +78,7 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value = "dashboard-kpis", key = "'trends_' + #recruiterId + '_' + #days")
     public ApplicationTrendDto getApplicationTrends(UUID recruiterId, int days) {
         // days is passed but currently query is hardcoded to 30 days. We will use the query as is for now.
         List<Object[]> results = applicationRepository.countApplicationsByDateForRecruiterLast30Days(recruiterId);

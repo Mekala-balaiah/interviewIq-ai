@@ -3,6 +3,7 @@ package com.interviewiq.interview.service;
 import com.interviewiq.interview.entity.InterviewQuestion;
 import com.interviewiq.interview.entity.InterviewResponse;
 import com.interviewiq.job.entity.Job;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.Map;
 public class MockInterviewAiServiceImpl implements InterviewAiService {
 
     @Override
+    @Cacheable(value = "ai-responses", key = "#job.id.toString() + '_' + #count")
     public List<InterviewQuestion> generateQuestions(Job job, int count) {
         List<InterviewQuestion> questions = new ArrayList<>();
         
@@ -43,6 +45,7 @@ public class MockInterviewAiServiceImpl implements InterviewAiService {
     }
 
     @Override
+    @Cacheable(value = "ai-responses", key = "#questionText.hashCode() + '_' + #candidateResponse.hashCode()")
     public Map<String, Object> evaluateResponse(String questionText, String expectedAnswer, String candidateResponse) {
         Map<String, Object> result = new HashMap<>();
         

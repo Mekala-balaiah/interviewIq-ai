@@ -43,8 +43,8 @@ Last Updated:    2026-08-03
 | 11 | Coding Assessment | ⬜ Planned | `0.11.0` | [#11](https://github.com/Mekala-balaiah/interviewiq-ai/issues/11) | — | — |
 | 12 | Dashboard & Analytics | ⬜ Planned | `0.12.0` | [#12](https://github.com/Mekala-balaiah/interviewiq-ai/issues/12) | — | — |
 | 13 | Notifications (Kafka + SSE) | ✅ Done | `0.14.0` | [#13](https://github.com/Mekala-balaiah/interviewiq-ai/issues/13) | — | — |
-| 14 | Redis Cache Layer | ⬜ Planned | `0.15.0` | [#14](https://github.com/Mekala-balaiah/interviewiq-ai/issues/14) | — | — |
-| 15 | Elasticsearch Search | ⬜ Planned | `0.15.0` | [#15](https://github.com/Mekala-balaiah/interviewiq-ai/issues/15) | — | — |
+| 14 | Redis Cache Layer | ✅ Done | `0.15.0` | [#14](https://github.com/Mekala-balaiah/interviewiq-ai/issues/14) | — | — |
+| 15 | Elasticsearch Search | ⬜ Planned | `0.16.0` | [#15](https://github.com/Mekala-balaiah/interviewiq-ai/issues/15) | — | — |
 | 16 | Kafka Messaging | ⬜ Planned | `0.16.0` | [#16](https://github.com/Mekala-balaiah/interviewiq-ai/issues/16) | — | — |
 | 17 | Testing Suite | ⬜ Planned | `0.17.0` | [#17](https://github.com/Mekala-balaiah/interviewiq-ai/issues/17) | — | — |
 | 18 | Deployment (Docker + CI/CD) | ⬜ Planned | `0.18.0` | [#18](https://github.com/Mekala-balaiah/interviewiq-ai/issues/18) | — | — |
@@ -215,7 +215,7 @@ Last Updated:    2026-08-03
 - [x] Test case evaluation
 - [x] Plagiarism detection
 
-Overall Completion: **70%** (14 out of 20 Sprints)
+Overall Completion: **75%** (15 out of 20 Sprints)
 
 ### Phase 1: Core Architecture & Setup (Weeks 1-2)
 - [x] **Sprint 1:** Init backend, DB, Auth (JWT, OAuth)
@@ -259,10 +259,10 @@ Overall Completion: **70%** (14 out of 20 Sprints)
 - [x] Notification center endpoints
 
 ### Sprint 15 — Redis Cache Layer
-- Dashboard caching
-- ATS score caching
-- AI response caching
-- Cache invalidation strategy
+- [x] Dashboard caching
+- [x] ATS score caching
+- [x] AI response caching
+- [x] Cache invalidation strategy
 
 ### Sprint 16 — Elasticsearch
 - ES index configuration

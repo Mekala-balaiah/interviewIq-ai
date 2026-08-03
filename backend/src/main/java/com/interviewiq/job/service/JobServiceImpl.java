@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "dashboard-kpis", allEntries = true)
     public JobDto createJob(UUID recruiterUserId, CreateJobRequest request) {
         RecruiterProfile recruiter = recruiterProfileRepository.findByUserId(recruiterUserId)
                 .orElseThrow(() -> new ResourceNotFoundException("RecruiterProfile", "userId", recruiterUserId));
@@ -73,6 +75,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "dashboard-kpis", allEntries = true)
     public void deleteJob(UUID jobId, UUID recruiterUserId) {
         Job job = getJobAndVerifyOwnership(jobId, recruiterUserId);
         job.setDeletedAt(Instant.now());
@@ -116,6 +119,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "dashboard-kpis", allEntries = true)
     public JobDto submitForApproval(UUID jobId, UUID recruiterUserId) {
         Job job = getJobAndVerifyOwnership(jobId, recruiterUserId);
         

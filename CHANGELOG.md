@@ -5,6 +5,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.15.0] - 2026-08-03
+### Added
+- Redis caching for Dashboard KPIs, pipeline funnels, and application trends (`@Cacheable("dashboard-kpis")`).
+- Redis caching for AI operations including resume analysis, skill extraction, and interview question generation (`@Cacheable("ats-scores")`, `@Cacheable("ai-responses")`).
+- Programmatic cache invalidation (`@CacheEvict`) in Application and Job workflows.
+
 ## [0.14.0] - 2026-08-03
 ### Added
 - Real-time Server-Sent Events (SSE) `/stream` endpoint for live notifications.

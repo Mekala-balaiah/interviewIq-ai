@@ -32,6 +32,7 @@ import java.util.Map;
  * </ul>
  */
 @Configuration
+@EnableCaching
 @RequiredArgsConstructor
 public class RedisConfig {
 
