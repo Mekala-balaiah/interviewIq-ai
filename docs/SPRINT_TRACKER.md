@@ -215,7 +215,7 @@ Last Updated:    2026-08-03
 - [x] Test case evaluation
 - [x] Plagiarism detection
 
-Overall Completion: **60%** (12 out of 20 Sprints)
+Overall Completion: **65%** (13 out of 20 Sprints)
 
 ### Phase 1: Core Architecture & Setup (Weeks 1-2)
 - [x] **Sprint 1:** Init backend, DB, Auth (JWT, OAuth)
@@ -238,6 +238,7 @@ Overall Completion: **60%** (12 out of 20 Sprints)
 
 ### Phase 5: Dashboard & Analytics (Weeks 9-10)
 - [x] **Sprint 12:** Dashboard & Analytics
+- [x] **Sprint 13:** Search & Filtering
 
 ### Sprint 12 — Dashboard & Analytics
 - [x] Recruiter KPI endpoints
@@ -245,11 +246,14 @@ Overall Completion: **60%** (12 out of 20 Sprints)
 - [x] Time-series charts data
 - [x] Report generation
 
-### Sprint 13 — Notifications
-- SSE real-time endpoint
-- Kafka notification consumer
-- Email notification service
-- Notification center endpoints
+### Sprint 13 — Search & Filtering
+- [x] Candidate advanced search (skills, experience)
+- [x] Job filtering (location, type, salary)
+- [x] Pagination & sorting consistency
+- [x] SSE real-time endpoint
+- [x] Kafka notification consumer
+- [x] Email notification service
+- [x] Notification center endpoints
 
 ### Sprint 14 — Redis Cache Layer
 - Dashboard caching

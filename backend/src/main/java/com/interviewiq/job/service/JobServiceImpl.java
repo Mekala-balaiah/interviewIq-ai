@@ -6,16 +6,19 @@ import com.interviewiq.common.response.PagedResponse;
 import com.interviewiq.company.entity.Company;
 import com.interviewiq.job.dto.CreateJobRequest;
 import com.interviewiq.job.dto.JobDto;
+import com.interviewiq.job.dto.JobSearchRequest;
 import com.interviewiq.job.dto.UpdateJobRequest;
 import com.interviewiq.job.entity.Job;
 import com.interviewiq.job.enums.JobStatus;
 import com.interviewiq.job.mapper.JobMapper;
 import com.interviewiq.job.repository.JobRepository;
+import com.interviewiq.job.repository.JobSpecification;
 import com.interviewiq.recruiter.entity.RecruiterProfile;
 import com.interviewiq.recruiter.repository.RecruiterProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -138,5 +141,28 @@ public class JobServiceImpl implements JobService {
         }
         
         return job;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PagedResponse<JobDto> searchJobs(JobSearchRequest request, Pageable pageable) {
+        Specification<Job> spec = Specification.where(JobSpecification.isPublished())
+                .and(JobSpecification.isNotDeleted())
+                .and(JobSpecification.hasKeyword(request.getKeyword()))
+                .and(JobSpecification.hasLocation(request.getLocation()))
+                .and(JobSpecification.hasJobType(request.getJobType()))
+                .and(JobSpecification.hasMinSalary(request.getMinSalary()));
+
+        Page<Job> jobs = jobRepository.findAll(spec, pageable);
+        Page<JobDto> dtoPage = jobs.map(jobMapper::toDto);
+
+        return new PagedResponse<>(
+                dtoPage.getContent(),
+                dtoPage.getNumber(),
+                dtoPage.getSize(),
+                dtoPage.getTotalElements(),
+                dtoPage.getTotalPages(),
+                dtoPage.isLast()
+        );
     }
 }

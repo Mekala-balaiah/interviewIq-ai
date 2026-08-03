@@ -5,6 +5,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.13.0] - 2026-08-03
+### Added
+- Advanced Search capability using Spring Data JPA Specifications.
+- `CandidateSearchController` for recruiters to filter candidate profiles.
+- `JobController` updated with a `/search` endpoint to filter published jobs.
+
 ## [0.12.0] - 2026-08-03
 ### Added
 - `DashboardController` and `AnalyticsService` for recruiter KPIs, funnels, and application time-series trends.

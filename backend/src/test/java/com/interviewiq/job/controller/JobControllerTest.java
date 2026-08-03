@@ -7,6 +7,8 @@ import com.interviewiq.auth.security.JwtService;
 import com.interviewiq.auth.security.UserPrincipal;
 import com.interviewiq.job.dto.CreateJobRequest;
 import com.interviewiq.job.dto.JobDto;
+import com.interviewiq.job.dto.JobSearchRequest;
+import com.interviewiq.common.response.PagedResponse;
 import com.interviewiq.job.enums.EmploymentType;
 import com.interviewiq.job.enums.ExperienceLevel;
 import com.interviewiq.job.enums.WorkMode;
@@ -22,12 +24,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -87,6 +91,23 @@ class JobControllerTest {
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.data.title").value("Senior Java Developer"))
+                .andExpect(jsonPath("$.success").value(true));
+    }
+
+    @Test
+    void testSearchJobs() throws Exception {
+        JobDto responseDto = new JobDto();
+        responseDto.setId(UUID.randomUUID());
+        responseDto.setTitle("Senior Java Developer");
+
+        PagedResponse<JobDto> pagedResponse = new PagedResponse<>(List.of(responseDto), 0, 10, 1, 1, true);
+
+        when(jobService.searchJobs(any(JobSearchRequest.class), any())).thenReturn(pagedResponse);
+
+        mockMvc.perform(get("/api/v1/jobs/search?keyword=Java")
+                .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.content[0].title").value("Senior Java Developer"))
                 .andExpect(jsonPath("$.success").value(true));
     }
 }

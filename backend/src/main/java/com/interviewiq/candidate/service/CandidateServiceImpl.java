@@ -4,14 +4,19 @@ import com.interviewiq.auth.entity.User;
 import com.interviewiq.auth.repository.UserRepository;
 import com.interviewiq.candidate.dto.CandidateProfileDto;
 import com.interviewiq.candidate.dto.UpdateCandidateProfileRequest;
+import com.interviewiq.candidate.dto.CandidateSearchRequest;
 import com.interviewiq.candidate.entity.CandidateProfile;
 import com.interviewiq.candidate.mapper.CandidateMapper;
 import com.interviewiq.candidate.repository.CandidateProfileRepository;
 import com.interviewiq.candidate.repository.CandidateSkillRepository;
+import com.interviewiq.candidate.repository.CandidateSpecification;
 import com.interviewiq.candidate.repository.ResumeRepository;
 import com.interviewiq.common.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -114,5 +119,18 @@ public class CandidateServiceImpl implements CandidateService {
                 .build();
                 
         return profileRepository.save(profile);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<CandidateProfileDto> searchCandidates(CandidateSearchRequest request, Pageable pageable) {
+        Specification<CandidateProfile> spec = Specification.where(CandidateSpecification.hasKeyword(request.getKeyword()))
+                .and(CandidateSpecification.hasLocation(request.getLocation()))
+                .and(CandidateSpecification.hasMinExperience(request.getMinExperience()))
+                .and(CandidateSpecification.isOpenToRemote(request.getOpenToRemote()))
+                .and(CandidateSpecification.hasSkills(request.getSkills()));
+
+        Page<CandidateProfile> profiles = profileRepository.findAll(spec, pageable);
+        return profiles.map(candidateMapper::toDto);
     }
 }

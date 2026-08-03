@@ -6,6 +6,7 @@ import com.interviewiq.common.response.PagedResponse;
 import com.interviewiq.job.dto.AddJobSkillRequest;
 import com.interviewiq.job.dto.CreateJobRequest;
 import com.interviewiq.job.dto.JobDto;
+import com.interviewiq.job.dto.JobSearchRequest;
 import com.interviewiq.job.dto.JobSkillDto;
 import com.interviewiq.job.dto.UpdateJobRequest;
 import com.interviewiq.job.service.JobService;
@@ -58,6 +59,14 @@ public class JobController {
     @Operation(summary = "Get job details by ID")
     public ApiResponse<JobDto> getJobById(@PathVariable UUID jobId) {
         return ApiResponse.success(jobService.getJobById(jobId), "Job retrieved");
+    }
+
+    @GetMapping("/search")
+    @Operation(summary = "Search published jobs")
+    public ApiResponse<PagedResponse<JobDto>> searchJobs(
+            @ModelAttribute JobSearchRequest request,
+            Pageable pageable) {
+        return ApiResponse.success(jobService.searchJobs(request, pageable), "Jobs retrieved successfully");
     }
 
     @GetMapping("/slug/{slug}")

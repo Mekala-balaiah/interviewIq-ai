@@ -3,6 +3,7 @@ package com.interviewiq.job.service;
 import com.interviewiq.common.response.PagedResponse;
 import com.interviewiq.job.dto.CreateJobRequest;
 import com.interviewiq.job.dto.JobDto;
+import com.interviewiq.job.dto.JobSearchRequest;
 import com.interviewiq.job.dto.UpdateJobRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -16,4 +17,5 @@ public interface JobService {
     JobDto getJobBySlug(String slug);
     PagedResponse<JobDto> getMyJobs(UUID recruiterId, Pageable pageable);
     JobDto submitForApproval(UUID jobId, UUID recruiterId);
+    PagedResponse<JobDto> searchJobs(JobSearchRequest request, Pageable pageable);
 }
