@@ -5,6 +5,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.16.0] - 2026-08-03
+### Added
+- Elasticsearch `CandidateDocument` mapped to the `candidates` index.
+- `CandidateSearchRepository` extending `ElasticsearchRepository`.
+- `CandidateSearchServiceImpl` with compound NativeQuery builder supporting fuzzy full-text search, location/skill/experience/remote filters.
+- `CandidateSearchController`: `GET /api/v1/candidates/search` (Elasticsearch) and `POST /api/v1/candidates/search/sync/{id}` (Admin sync).
+- Auto-sync ES index on candidate profile update or skill add/remove (non-blocking with graceful error handling).
+
 ## [0.15.0] - 2026-08-03
 ### Added
 - Redis caching for Dashboard KPIs, pipeline funnels, and application trends (`@Cacheable("dashboard-kpis")`).

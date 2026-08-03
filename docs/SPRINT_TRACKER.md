@@ -44,8 +44,8 @@ Last Updated:    2026-08-03
 | 12 | Dashboard & Analytics | ⬜ Planned | `0.12.0` | [#12](https://github.com/Mekala-balaiah/interviewiq-ai/issues/12) | — | — |
 | 13 | Notifications (Kafka + SSE) | ✅ Done | `0.14.0` | [#13](https://github.com/Mekala-balaiah/interviewiq-ai/issues/13) | — | — |
 | 14 | Redis Cache Layer | ✅ Done | `0.15.0` | [#14](https://github.com/Mekala-balaiah/interviewiq-ai/issues/14) | — | — |
-| 15 | Elasticsearch Search | ⬜ Planned | `0.16.0` | [#15](https://github.com/Mekala-balaiah/interviewiq-ai/issues/15) | — | — |
-| 16 | Kafka Messaging | ⬜ Planned | `0.16.0` | [#16](https://github.com/Mekala-balaiah/interviewiq-ai/issues/16) | — | — |
+| 15 | Elasticsearch Search | ✅ Done | `0.16.0` | [#15](https://github.com/Mekala-balaiah/interviewiq-ai/issues/15) | — | — |
+| 16 | Kafka Messaging | ⬜ Planned | `0.17.0` | [#16](https://github.com/Mekala-balaiah/interviewiq-ai/issues/16) | — | — |
 | 17 | Testing Suite | ⬜ Planned | `0.17.0` | [#17](https://github.com/Mekala-balaiah/interviewiq-ai/issues/17) | — | — |
 | 18 | Deployment (Docker + CI/CD) | ⬜ Planned | `0.18.0` | [#18](https://github.com/Mekala-balaiah/interviewiq-ai/issues/18) | — | — |
 | 19 | Performance Optimization | ⬜ Planned | `0.19.0` | [#19](https://github.com/Mekala-balaiah/interviewiq-ai/issues/19) | — | — |
@@ -215,7 +215,7 @@ Last Updated:    2026-08-03
 - [x] Test case evaluation
 - [x] Plagiarism detection
 
-Overall Completion: **75%** (15 out of 20 Sprints)
+Overall Completion: **80%** (16 out of 20 Sprints)
 
 ### Phase 1: Core Architecture & Setup (Weeks 1-2)
 - [x] **Sprint 1:** Init backend, DB, Auth (JWT, OAuth)

@@ -32,6 +32,7 @@ public class CandidateServiceImpl implements CandidateService {
     private final CandidateSkillRepository candidateSkillRepository;
     private final ResumeRepository resumeRepository;
     private final CandidateMapper candidateMapper;
+    private final CandidateSearchService candidateSearchService;
 
     @Override
     @Transactional
@@ -68,6 +69,13 @@ public class CandidateServiceImpl implements CandidateService {
         profile = profileRepository.save(profile);
         
         calculateProfileCompletion(profile.getId());
+        
+        // Sync updated profile to Elasticsearch
+        try {
+            candidateSearchService.syncCandidate(profile.getId());
+        } catch (Exception e) {
+            log.warn("Failed to sync candidate {} to Elasticsearch after profile update: {}", profile.getId(), e.getMessage());
+        }
         
         return candidateMapper.toDto(profile);
     }

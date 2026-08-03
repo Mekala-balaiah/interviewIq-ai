@@ -12,6 +12,7 @@ import com.interviewiq.candidate.repository.SkillRepository;
 import com.interviewiq.common.exception.BusinessException;
 import com.interviewiq.common.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CandidateSkillServiceImpl implements CandidateSkillService {
@@ -29,6 +31,7 @@ public class CandidateSkillServiceImpl implements CandidateSkillService {
     private final SkillService skillService;
     private final SkillMapper skillMapper;
     private final CandidateService candidateService;
+    private final CandidateSearchService candidateSearchService;
 
     @Override
     @Transactional(readOnly = true)
@@ -73,6 +76,14 @@ public class CandidateSkillServiceImpl implements CandidateSkillService {
         
         candidateService.calculateProfileCompletion(profile.getId());
 
+        // Sync skill changes to Elasticsearch
+        try {
+            candidateSearchService.syncCandidate(profile.getId());
+        } catch (Exception e) {
+            // Non-blocking: log the failure but don't break the add-skill flow
+            log.warn("Failed to sync candidate {} to ES after skill add: {}", profile.getId(), e.getMessage());
+        }
+
         return skillMapper.toDto(candidateSkill);
     }
 
@@ -100,5 +111,12 @@ public class CandidateSkillServiceImpl implements CandidateSkillService {
         }
         
         candidateService.calculateProfileCompletion(profile.getId());
+
+        // Sync skill removal to Elasticsearch
+        try {
+            candidateSearchService.syncCandidate(profile.getId());
+        } catch (Exception e) {
+            log.warn("Failed to sync candidate {} to ES after skill removal: {}", profile.getId(), e.getMessage());
+        }
     }
 }
