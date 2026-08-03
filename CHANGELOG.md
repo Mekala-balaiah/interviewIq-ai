@@ -5,6 +5,31 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.4.0] — 2026-08-03 | Sprint 4 — Module 4
+
+### Added
+- `entity/User.java` — Core JPA entity for all platform roles
+- `entity/RefreshToken.java` — Entity for JWT refresh tokens
+- `entity/EmailVerification.java` — Entity for OTP email verification
+- `entity/PasswordResetToken.java` — Entity for password reset flow
+- `entity/OauthAccount.java` — Entity for OAuth2 social logins
+- `enums/*` — `UserRole`, `UserStatus`, `OtpPurpose`, `OauthProvider` enums
+- `repository/*` — 5 Spring Data JPA repositories for the entities above
+- `security/UserPrincipal.java` — Custom `UserDetails` implementation
+- `security/CustomUserDetailsService.java` — `UserDetailsService` implementation
+- `security/JwtTokenProvider.java` — Utility for JWT generation and validation
+- `security/JwtAuthenticationFilter.java` — Request filter for JWT auth
+- `security/JwtAuthenticationEntryPoint.java` — Custom 401 unauthorized handler
+- `security/SecurityConfig.java` — Spring Security configuration (CORS, CSRF, endpoint protection)
+- `dto/*` — 6 DTOs (`LoginRequest`, `RegisterRequest`, `AuthResponse`, etc.)
+- `mapper/UserMapper.java` — MapStruct interface for User mapping
+- `service/AuthService(Impl).java` — Login, registration, token refresh, OTP, reset password
+- `controller/AuthController.java` — REST endpoints for authentication
+- `test/.../JwtTokenProviderTest.java` — Unit tests for JWT utility
+- `test/.../AuthControllerTest.java` — Integration tests for Auth endpoints
+
+---
+
 ## [0.3.0] — 2026-08-03 | Sprint 3 — Module 3
 
 ### Added

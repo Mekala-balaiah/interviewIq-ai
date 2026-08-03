@@ -10,19 +10,19 @@
 ## 🏆 Overall Progress
 
 ```
-Sprint Progress: ███░░░░░░░░░░░░░░░░░  3 / 20 sprints (15%)
-Version:         0.3.0
+Sprint Progress: ████░░░░░░░░░░░░░░░░  4 / 20 sprints (20%)
+Version:         0.4.0
 Last Updated:    2026-08-03
 ```
 
 | Metric | Value |
 |--------|-------|
 | **Total Sprints** | 20 |
-| **Completed** | 3 |
-| **In Progress** | Sprint 4 |
-| **Remaining** | 17 |
-| **Current Version** | `0.3.0` |
-| **Next Release** | `0.4.0` (Sprint 4 — Auth) |
+| **Completed** | 4 |
+| **In Progress** | Sprint 5 |
+| **Remaining** | 16 |
+| **Current Version** | `0.4.0` |
+| **Next Release** | `0.5.0` (Sprint 5 — Candidate) |
 
 ---
 
@@ -33,8 +33,8 @@ Last Updated:    2026-08-03
 | 1 | Project Vision & Architecture | ✅ Done | `0.1.0` | [#1](https://github.com/Mekala-balaiah/interviewiq-ai/issues/1) | [v0.1.0](https://github.com/Mekala-balaiah/interviewiq-ai/releases/tag/v0.1.0) | `main` |
 | 2 | System Architecture & DB Design | ✅ Done | `0.2.0` | [#2](https://github.com/Mekala-balaiah/interviewiq-ai/issues/2) | [v0.2.0](https://github.com/Mekala-balaiah/interviewiq-ai/releases/tag/v0.2.0) | `main` |
 | 3 | Spring Boot Project Setup | ✅ Done | `0.3.0` | [#3](https://github.com/Mekala-balaiah/interviewiq-ai/issues/3) | [v0.3.0](https://github.com/Mekala-balaiah/interviewiq-ai/releases/tag/v0.3.0) | `main` |
-| 4 | Authentication & Authorization | 🔄 Active | `0.4.0` | [#4](https://github.com/Mekala-balaiah/interviewiq-ai/issues/4) | — | `sprint/4-auth` |
-| 5 | Candidate Module | ⬜ Planned | `0.5.0` | [#5](https://github.com/Mekala-balaiah/interviewiq-ai/issues/5) | — | — |
+| 4 | Authentication & Authorization | ✅ Done | `0.4.0` | [#4](https://github.com/Mekala-balaiah/interviewiq-ai/issues/4) | [v0.4.0](https://github.com/Mekala-balaiah/interviewiq-ai/releases/tag/v0.4.0) | `main` |
+| 5 | Candidate Module | 🔄 Active | `0.5.0` | [#5](https://github.com/Mekala-balaiah/interviewiq-ai/issues/5) | — | `sprint/5-candidate` |
 | 6 | Recruiter Module | ⬜ Planned | `0.6.0` | [#6](https://github.com/Mekala-balaiah/interviewiq-ai/issues/6) | — | — |
 | 7 | HR Module | ⬜ Planned | `0.7.0` | [#7](https://github.com/Mekala-balaiah/interviewiq-ai/issues/7) | — | — |
 | 8 | Admin Module | ⬜ Planned | `0.8.0` | [#8](https://github.com/Mekala-balaiah/interviewiq-ai/issues/8) | — | — |
@@ -122,34 +122,38 @@ Last Updated:    2026-08-03
 
 ### Sprint 4 — Module 4: Authentication & Authorization `v0.4.0`
 
-> **Started:** — | **Target:** Sprint completion
+> **Closed:** 2026-08-03 | **Branch:** `main`
 
-#### Planned Deliverables
-- [ ] `User` JPA entity with role enum
-- [ ] JWT utility class (generate, validate, parse)
-- [ ] JWT Authentication Filter (extends `OncePerRequestFilter`)
-- [ ] Spring Security `SecurityConfig` (CORS, filter chain, RBAC)
-- [ ] `AuthService` (register, login, refresh, logout)
-- [ ] `AuthController` (all endpoints under `/api/v1/auth`)
-- [ ] Email OTP service + Thymeleaf template
-- [ ] Password reset flow (token + email)
-- [ ] Google OAuth2 success handler
-- [ ] RefreshToken entity + repo
-- [ ] Request/Response DTOs (all auth DTOs)
-- [ ] MapStruct mapper (User ↔ DTO)
-- [ ] Auth integration tests
-- [ ] Postman collection update
+| Deliverable | File | Status |
+|-------------|------|--------|
+| `User` JPA entity with role enum | `User.java` | ✅ |
+| JWT utility class | `JwtTokenProvider.java` | ✅ |
+| JWT Authentication Filter | `JwtAuthenticationFilter.java` | ✅ |
+| Spring Security `SecurityConfig` | `SecurityConfig.java` | ✅ |
+| `AuthService` | `AuthServiceImpl.java` | ✅ |
+| `AuthController` | `AuthController.java` | ✅ |
+| Email OTP service + entity | `EmailVerification.java` | ✅ |
+| Password reset flow | `PasswordResetToken.java` | ✅ |
+| OAuth2 Entities | `OauthAccount.java` | ✅ |
+| RefreshToken entity + repo | `RefreshToken.java` | ✅ |
+| Auth DTOs | `dto/*.java` | ✅ |
+| MapStruct mapper | `UserMapper.java` | ✅ |
+| Auth integration tests | `AuthControllerTest.java` | ✅ |
 
 ---
 
-## ⬜ Upcoming Sprints
+## 🔄 Active Sprint
 
-### Sprint 5 — Candidate Module
-- Candidate profile CRUD
-- Resume upload endpoint
-- Candidate skills management
-- Application submission
-- Profile completion calculation
+### Sprint 5 — Candidate Module `v0.5.0`
+
+> **Started:** 2026-08-03 | **Target:** Sprint completion
+
+#### Planned Deliverables
+- [ ] Candidate profile CRUD endpoints
+- [ ] Resume upload and storage integration (AWS S3 / Local)
+- [ ] Candidate skills management endpoints
+- [ ] Job application submission
+- [ ] Profile completion calculation logic
 
 ### Sprint 6 — Recruiter Module
 - Job posting CRUD
@@ -254,9 +258,9 @@ main                    ← Production-ready code (protected)
         ├── sprint/1-project-vision      ✅ merged
         ├── sprint/2-system-architecture ✅ merged
         ├── sprint/3-spring-boot-setup   ✅ merged
-        ├── sprint/4-auth               🔄 current
-        ├── sprint/5-candidate          ⬜ next
-        └── ...
+        ├── sprint/4-auth                ✅ merged
+        ├── sprint/5-candidate          🔄 current
+        ├── sprint/6-recruiter          ⬜ next
 ```
 
 ## 🏷️ Label System
@@ -282,7 +286,8 @@ main                    ← Production-ready code (protected)
 | Sprint 1 | 8 | ~500 | 1 session |
 | Sprint 2 | 9 | ~1,200 | 1 session |
 | Sprint 3 | 20 | ~1,800 | 1 session |
-| Sprint 4 | TBD | TBD | — |
+| Sprint 4 | 19 | ~1,100 | 1 session |
+| Sprint 5 | TBD | TBD | — |
 
 ---
 
