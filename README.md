@@ -2,8 +2,8 @@
 ### Enterprise AI Recruitment & Interview Intelligence Platform
 
 [![CI Backend](https://github.com/Mekala-balaiah/interviewiq-ai/actions/workflows/ci-backend.yml/badge.svg)](https://github.com/Mekala-balaiah/interviewiq-ai/actions/workflows/ci-backend.yml)
-[![Sprint Progress](https://img.shields.io/badge/Sprint-18%20of%2021-blue?style=flat-square)](https://github.com/Mekala-balaiah/interviewiq-ai/blob/main/docs/SPRINT_TRACKER.md)
-[![Version](https://img.shields.io/badge/Version-0.18.0-green?style=flat-square)](https://github.com/Mekala-balaiah/interviewiq-ai/releases)
+[![Sprint Progress](https://img.shields.io/badge/Sprint-19%20of%2021-blue?style=flat-square)](https://github.com/Mekala-balaiah/interviewiq-ai/blob/main/docs/SPRINT_TRACKER.md)
+[![Version](https://img.shields.io/badge/Version-0.19.0-green?style=flat-square)](https://github.com/Mekala-balaiah/interviewiq-ai/releases)
 [![Java](https://img.shields.io/badge/Java-21-orange?style=flat-square&logo=openjdk)](https://openjdk.org/projects/jdk/21/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3-green?style=flat-square&logo=spring)](https://spring.io/projects/spring-boot)
 [![React](https://img.shields.io/badge/React-19-blue?style=flat-square&logo=react)](https://react.dev/)
@@ -24,15 +24,16 @@ Built with **Java 21 + Spring Boot 3** on the backend and **React 19 + TypeScrip
 ## 📊 Sprint Progress
 
 ```
-██████████████████░░░  Sprint 18 of 21 (86% complete)
+███████████████████░░  Sprint 19 of 21 (90% complete)
 ```
 
 | Sprint | Module | Status | Version |
 |--------|--------|--------|---------|
 | ✅ 1–17| Backend Sprints (Core → Testing) | Done | [v0.17.0](https://github.com/Mekala-balaiah/interviewiq-ai/releases/tag/v0.17.0) |
 | ✅ 18 | Frontend (React 19 + Vite) | Done | [v0.18.0](https://github.com/Mekala-balaiah/interviewiq-ai/releases/tag/v0.18.0) |
-| 🔄 19 | Deployment (Docker + CI/CD) | **Active** | v0.19.0 |
-| ⬜ 20–21 | Performance & Final Polish | Planned | — |
+| ✅ 19 | Deployment (Docker + CI/CD) | Done | [v0.19.0](https://github.com/Mekala-balaiah/interviewiq-ai/releases/tag/v0.19.0) |
+| 🔄 20 | Performance Optimization | **Active** | v0.20.0 |
+| ⬜ 21 | Final Review & Polish | Planned | — |
 
 > 📋 [Full Sprint Tracker →](docs/SPRINT_TRACKER.md)
 
@@ -67,10 +68,12 @@ git clone https://github.com/Mekala-balaiah/interviewiq-ai.git
 cd interviewiq-ai
 ```
 
-### 2. Start Infrastructure
+### 2. To run the entire production-ready stack (Backend, Frontend, and Infrastructure):
+
 ```bash
-docker-compose up -d
+docker-compose -f docker-compose.prod.yml up -d --build
 ```
+> The application will be available at `http://localhost` (Frontend) and `http://localhost/api/v1` (Backend).
 
 | Service | URL |
 |---------|-----|
@@ -136,7 +139,7 @@ interviewiq-ai/
 ├── .env.example                # Environment variable template
 ├── CHANGELOG.md                # Version history
 ├── CONTRIBUTING.md             # Development workflow guide
-└── VERSION                     # Current: 0.18.0
+└── VERSION                     # Current: 0.19.0
 ```
 
 ---

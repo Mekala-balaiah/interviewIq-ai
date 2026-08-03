@@ -5,6 +5,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.19.0] - 2026-08-03
+### Added
+- **Dockerization (Backend)**: Added multi-stage `Dockerfile` in `backend/` using Maven and Eclipse Temurin.
+- **Dockerization (Frontend)**: Added multi-stage `Dockerfile` in `frontend/` using Node and NGINX.
+- **NGINX Configuration**: Added custom `default.conf` to serve the React SPA and proxy `/api/v1` traffic to the backend container.
+- **Production Compose**: Created `docker-compose.prod.yml` to orchestrate Postgres, Redis, Zookeeper, Kafka, Elasticsearch, Backend, and Frontend.
+- **CI/CD Pipeline**: Added `.github/workflows/docker-build.yml` to automatically build Docker images on pushes to `main`.
+
 ## [0.18.0] - 2026-08-03
 ### Added
 - **React 19 + Vite + TypeScript** frontend scaffold under `frontend/`.

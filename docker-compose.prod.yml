@@ -1,0 +1,158 @@
+version: '3.9'
+
+# ============================================================
+# InterviewIQ AI — Docker Compose (Production)
+# Starts the entire stack for production deployment
+# ============================================================
+
+services:
+
+  # ─── Database & Cache ───────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: prod-interviewiq-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-interviewiq_db}
+      POSTGRES_USER: ${POSTGRES_USER:-interviewiq}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-interviewiq_pass}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - prod_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-interviewiq} -d ${POSTGRES_DB:-interviewiq_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - prod-interviewiq-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: prod-interviewiq-redis
+    restart: always
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+    volumes:
+      - prod_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - prod-interviewiq-network
+
+  # ─── Event Streaming ─────────────────────────────────────────
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.7.0
+    container_name: prod-interviewiq-zookeeper
+    restart: always
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - prod_zookeeper_data:/var/lib/zookeeper/data
+      - prod_zookeeper_logs:/var/lib/zookeeper/log
+    networks:
+      - prod-interviewiq-network
+
+  kafka:
+    image: confluentinc/cp-kafka:7.7.0
+    container_name: prod-interviewiq-kafka
+    restart: always
+    depends_on:
+      zookeeper:
+        condition: service_started
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - prod_kafka_data:/var/lib/kafka/data
+    healthcheck:
+      test: ["CMD", "kafka-topics", "--bootstrap-server", "localhost:9092", "--list"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - prod-interviewiq-network
+
+  # ─── Search Engine ──────────────────────────────────────────
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.3
+    container_name: prod-interviewiq-elasticsearch
+    restart: always
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes:
+      - prod_elasticsearch_data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - prod-interviewiq-network
+
+  # ─── Application Services ───────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: prod-interviewiq-backend
+    restart: always
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/${POSTGRES_DB:-interviewiq_db}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER:-interviewiq}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD:-interviewiq_pass}
+      - SPRING_DATA_REDIS_HOST=redis
+      - SPRING_DATA_REDIS_PORT=6379
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      - SPRING_ELASTICSEARCH_URIS=http://elasticsearch:9200
+      - JWT_SECRET=${JWT_SECRET:-9a33bb58b548b8159187383a15291b5c4df42d8d3e91b42cf4308a38a0a99ff1}
+      - OAUTH2_GOOGLE_CLIENT_ID=${OAUTH2_GOOGLE_CLIENT_ID:-placeholder}
+      - OAUTH2_GOOGLE_CLIENT_SECRET=${OAUTH2_GOOGLE_CLIENT_SECRET:-placeholder}
+    networks:
+      - prod-interviewiq-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: prod-interviewiq-frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - prod-interviewiq-network
+
+# ============================================================
+# Networks & Volumes
+# ============================================================
+networks:
+  prod-interviewiq-network:
+    driver: bridge
+
+volumes:
+  prod_postgres_data:
+  prod_redis_data:
+  prod_zookeeper_data:
+  prod_zookeeper_logs:
+  prod_kafka_data:
+  prod_elasticsearch_data:
