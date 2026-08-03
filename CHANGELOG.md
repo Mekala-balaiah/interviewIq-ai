@@ -5,6 +5,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.10.0] - 2026-08-03
+### Added
+- `Interview`, `InterviewQuestion`, `InterviewResponse` entities representing the AI Interview Engine.
+- `InterviewAiService` stub simulating real-time dynamic question generation and score evaluation (0-10) per answer.
+- Endpoints to schedule, start, submit responses to, and complete AI interviews in `InterviewController`.
+
 ## [0.9.0] - 2026-08-03
 ### Added
 - `ResumeAnalysis` entity mapping to existing `resume_analyses` table.
