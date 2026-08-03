@@ -1,5 +1,7 @@
 package com.interviewiq.candidate.service;
 
+import com.interviewiq.auth.repository.UserRepository;
+import com.interviewiq.candidate.mapper.CandidateMapper;
 import com.interviewiq.candidate.entity.CandidateProfile;
 import com.interviewiq.candidate.repository.CandidateProfileRepository;
 import com.interviewiq.candidate.repository.CandidateSkillRepository;
@@ -25,10 +27,19 @@ class CandidateServiceTest {
     private CandidateProfileRepository profileRepository;
 
     @Mock
+    private UserRepository userRepository;
+
+    @Mock
     private CandidateSkillRepository candidateSkillRepository;
 
     @Mock
     private ResumeRepository resumeRepository;
+
+    @Mock
+    private CandidateMapper candidateMapper;
+
+    @Mock
+    private CandidateSearchService candidateSearchService;
 
     @InjectMocks
     private CandidateServiceImpl candidateService;

@@ -1,0 +1,88 @@
+# ============================================================
+# InterviewIQ AI — TEST Profile
+# Self-contained: H2 in-memory DB, no external services needed
+# ============================================================
+spring:
+  # ----------------------------------------------------------
+  # H2 In-Memory Database (replaces PostgreSQL in tests)
+  # ----------------------------------------------------------
+  datasource:
+    url: jdbc:h2:mem:interviewiq_test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;DEFAULT_NULL_ORDERING=HIGH
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: false
+    open-in-view: false
+
+  # ----------------------------------------------------------
+  # Disable Flyway — JPA create-drop handles the schema
+  # ----------------------------------------------------------
+  flyway:
+    enabled: false
+
+  # ----------------------------------------------------------
+  # Disable Redis — use simple in-memory cache instead
+  # ----------------------------------------------------------
+  cache:
+    type: simple
+
+  # ----------------------------------------------------------
+  # Disable Spring Session (requires Redis)
+  # ----------------------------------------------------------
+  session:
+    store-type: none
+
+  # ----------------------------------------------------------
+  # Disable Kafka auto-configuration
+  # ----------------------------------------------------------
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+
+  # ----------------------------------------------------------
+  # Disable Elasticsearch
+  # ----------------------------------------------------------
+  data:
+    elasticsearch:
+      repositories:
+        enabled: false
+  elasticsearch:
+    uris: http://localhost:9200  # Not actually used — ES repos disabled
+
+# ----------------------------------------------------------
+# Minimal logging for tests
+# ----------------------------------------------------------
+logging:
+  level:
+    root: WARN
+    com.interviewiq: INFO
+    org.springframework.test: INFO
+    org.springframework.security: WARN
+
+# ----------------------------------------------------------
+# JWT — use a fixed test secret
+# ----------------------------------------------------------
+interviewiq:
+  jwt:
+    secret: test-secret-key-minimum-256-bits-required-for-hs256-algorithm-test
+    access-token-expiration-ms: 900000
+    refresh-token-expiration-ms: 604800000
+  rate-limiting:
+    enabled: false
+  kafka:
+    topics:
+      interview-created: test.interview.created
+      resume-uploaded: test.resume.uploaded
+      candidate-applied: test.candidate.applied
+      assessment-completed: test.assessment.completed
+      auth-events: test.auth.events
+      email-events: test.email.events
+      notification-events: test.notification.events

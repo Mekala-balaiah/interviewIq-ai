@@ -3,8 +3,9 @@ package com.interviewiq.candidate.controller;
 import com.interviewiq.auth.enums.UserRole;
 import com.interviewiq.auth.security.JwtAuthenticationFilter;
 import com.interviewiq.auth.security.UserPrincipal;
-import com.interviewiq.candidate.dto.CandidateProfileDto;
-import com.interviewiq.candidate.service.CandidateService;
+import com.interviewiq.candidate.document.CandidateDocument;
+import com.interviewiq.candidate.service.CandidateSearchService;
+import com.interviewiq.common.response.PagedResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,15 +22,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(
-    controllers = CandidateSearchController.class,
-    excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = JwtAuthenticationFilter.class)
+        controllers = CandidateSearchController.class,
+        excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = JwtAuthenticationFilter.class)
 )
 @AutoConfigureMockMvc(addFilters = false)
 class CandidateSearchControllerTest {
@@ -41,35 +43,76 @@ class CandidateSearchControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private CandidateService candidateService;
+    private CandidateSearchService candidateSearchService;
 
-    private UserPrincipal recruiterUser;
+    private UserPrincipal recruiterPrincipal;
+    private UserPrincipal adminPrincipal;
+    private UUID userId;
 
     @BeforeEach
     void setUp() {
-        recruiterUser = new UserPrincipal(
-                UUID.randomUUID(),
-                "recruiter@example.com",
-                "password",
-                UserRole.RECRUITER,
+        userId = UUID.randomUUID();
+
+        recruiterPrincipal = new UserPrincipal(
+                userId, "recruiter@example.com", "password", UserRole.RECRUITER,
                 Collections.singletonList(new SimpleGrantedAuthority("ROLE_RECRUITER"))
+        );
+
+        adminPrincipal = new UserPrincipal(
+                userId, "admin@example.com", "password", UserRole.ADMIN,
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"))
         );
     }
 
     @Test
-    void searchCandidates_ReturnsSuccess() throws Exception {
-        CandidateProfileDto profile = new CandidateProfileDto();
-        profile.setId(UUID.randomUUID());
-        profile.setHeadline("Java Developer");
-        
-        Page<CandidateProfileDto> page = new PageImpl<>(List.of(profile));
-        
-        when(candidateService.searchCandidates(any(), any(Pageable.class))).thenReturn(page);
+    void searchCandidates_WithKeyword_ReturnsOk() throws Exception {
+        CandidateDocument doc = CandidateDocument.builder()
+                .id(UUID.randomUUID())
+                .headline("Senior Java Engineer")
+                .location("Remote")
+                .build();
 
-        mockMvc.perform(get("/api/v1/candidates/search?keyword=Java")
-                .with(SecurityMockMvcRequestPostProcessors.user(recruiterUser)))
+        PagedResponse<CandidateDocument> response = new PagedResponse<>(
+                List.of(doc), 0, 20, 1, 1, true
+        );
+
+        when(candidateSearchService.searchCandidates(
+                anyString(), isNull(), isNull(), isNull(), isNull(), anyInt(), anyInt()
+        )).thenReturn(response);
+
+        mockMvc.perform(get("/api/v1/candidates/search")
+                        .param("keyword", "java")
+                        .with(SecurityMockMvcRequestPostProcessors.user(recruiterPrincipal)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.content[0].headline").value("Java Developer"));
+                .andExpect(jsonPath("$.data.content[0].headline").value("Senior Java Engineer"))
+                .andExpect(jsonPath("$.data.totalElements").value(1));
+    }
+
+    @Test
+    void searchCandidates_WithNoParams_ReturnsOk() throws Exception {
+        PagedResponse<CandidateDocument> response = new PagedResponse<>(
+                List.of(), 0, 20, 0, 0, true
+        );
+
+        when(candidateSearchService.searchCandidates(
+                isNull(), isNull(), isNull(), isNull(), isNull(), anyInt(), anyInt()
+        )).thenReturn(response);
+
+        mockMvc.perform(get("/api/v1/candidates/search")
+                        .with(SecurityMockMvcRequestPostProcessors.user(recruiterPrincipal)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.totalElements").value(0));
+    }
+
+    @Test
+    void syncCandidate_AsAdmin_ReturnsOk() throws Exception {
+        UUID candidateId = UUID.randomUUID();
+
+        mockMvc.perform(post("/api/v1/candidates/search/sync/{id}", candidateId)
+                        .with(SecurityMockMvcRequestPostProcessors.user(adminPrincipal)))
+                .andExpect(status().isOk());
+
+        verify(candidateSearchService).syncCandidate(candidateId);
     }
 }

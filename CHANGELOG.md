@@ -5,6 +5,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.17.0] - 2026-08-03
+### Added
+- `application-test.yml`: Self-contained CI test profile (H2, no Kafka/Redis/ES required).
+- `NotificationServiceImplTest`: 6 unit tests covering paginated retrieval, unread count, mark-as-read (success and unauthorized), not-found, and mark-all-as-read.
+- `CandidateSearchServiceImplTest`: 4 unit tests covering ES sync, sync with missing profile, keyword search, and empty results.
+- `CandidateSearchControllerTest`: 3 `@WebMvcTest` tests covering search endpoint and admin sync trigger.
+### Fixed
+- `CandidateServiceTest`: Added missing `CandidateSearchService`, `UserRepository`, and `CandidateMapper` mocks (broken after Sprint 16).
+
 ## [0.16.0] - 2026-08-03
 ### Added
 - Elasticsearch `CandidateDocument` mapped to the `candidates` index.
